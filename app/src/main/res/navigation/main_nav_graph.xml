@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/homeFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.morim.ui.main.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_teacherFragment"
+            app:destination="@id/teacherFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myMeetingsFragment"
+        android:name="com.example.morim.ui.main.MyMeetingsFragment"
+        android:label="MyMeetingsFragment"
+        tools:layout="@layout/fragment_my_meetings" >
+        <action
+            android:id="@+id/action_myMeetingsFragment_to_teacherFragment"
+            app:destination="@id/teacherFragment" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/teachersByLocation"
+        android:name="com.example.morim.ui.main.TeachersByLocation"
+        android:label="TeachersByLocation"
+        tools:layout="@layout/fragment_teachers_by_location" />
+    <fragment
+        android:id="@+id/teacherSearch"
+        android:name="com.example.morim.ui.main.TeacherSearch"
+        android:label="TeacherSearch"
+        tools:layout="@layout/fragment_teacher_search">
+        <action
+            android:id="@+id/action_teacherSearch_to_teacherFragment"
+            app:destination="@id/teacherFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/teacherFragment"
+        android:name="com.example.morim.ui.main.TeacherFragment"
+        android:label="TeacherFragment"
+        tools:layout="@layout/fragment_teacher">
+
+        <argument
+            android:name="teacher"
+            app:argType="string" />
+
+
+    </fragment>
+    <fragment
+        android:id="@+id/chatListFragment"
+        android:name="com.example.morim.ui.main.ChatListFragment"
+        android:label="ChatListFragment"
+        tools:layout="@layout/fragment_chat_list" />
+
+
+    <fragment
+        android:id="@+id/favoritesFragment"
+        android:name="com.example.morim.ui.main.FavoritesFragment"
+        android:label="FavoritesFragment"
+        tools:layout="@layout/fragment_favorites" />
+    <action android:id="@+id/action_global_favoritesFragment" app:destination="@id/favoritesFragment" />
+
+
+    <!--    <fragment-->
+    <!--        android:id="@+id/chatFragment"-->
+    <!--        android:name="com.example.morim.ui.main.ChatFragment"-->
+    <!--        android:label="Chat"-->
+    <!--        tools:layout="@layout/fragment_chat" />-->
+
+
+</navigation>

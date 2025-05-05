@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name">Morim</string>
+    <string name="enter_password">Enter password</string>
+    <string name="enter_email_address">Enter email address</string>
+    <string name="enter_full_name">Enter full name</string>
+    <string name="register">Register</string>
+    <string name="already_have_an_account_sign_in_now">Already have an account? sign in now</string>
+    <string name="don_t_have_an_acccount_create_one_now">Don\'t have an acccount? create one now!</string>
+    <string name="student_account">Student account</string>
+    <string name="teacher_account">Teacher account</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="MAPS_API_KEY">AIzaSyBkC2aOxt-ilf1o8ff06iJb5UeJ1GvSVWk</string>
+    <string name="save">Save</string>
+    <string name="select_teaching_areas">Select teaching areas</string>
+    <string name="select_teaching_subjects">Select teaching subjects</string>
+    <string name="select_teaching_city">Select teaching city</string>
+    <string name="selected_city_none">Selected city: None</string>
+    <string name="enter_education_details">Enter education details</string>
+    <string name="login">Login</string>
+    <string name="online_lesson">Online Lesson</string>
+    <string name="zoom_skype_teacher">Zoom/Skype Teacher</string>
+    <string name="my_meetings">My Meetings</string>
+    <string name="teachers">Teachers</string>
+    <string name="teachers_by_location">Teachers by location</string>
+    <string name="teachers_near_me">Teachers near me</string>
+    <string name="teacher_search">Teacher search</string>
+    <string name="meetings">Meetings</string>
+    <string name="near_me">Near me</string>
+    <string name="move_to_current_location">Move to current location</string>
+    <string name="rate_this_teacher">Rate this teacher</string>
+    <string name="enter_hourly_price">Enter hourly price</string>
+    <string name="hourly_fee_150">Hourly Fee: 150$</string>
+    <string name="back_button">Back button</string>
+    <string name="min_price">Min Price</string>
+    <string name="max_price">Max Price</string>
+    <string name="apply_filter">Apply Filter</string>
+    <color name="purple_500">#9C27B0</color> <!-- Couleur violette -->
+    <string name="teacher_name">Roni Peretz</string>
+    <string name="teaching_subjects">Teaching Subjects</string>
+    <string name="education_label">Education</string>
+    <string name="schedule_with_teacher">Schedule with Roni Peretz</string>
+    <string name="view_profile">View Profile</string>
+    <string name="chat_button_description">Chat with teacher</string>
+    <string name="hourly_fee">150$ /hour</string>
+    <string name="type_your_message">Type your message</string>
+    <string name="send_message">Send</string>
+    <string name="Lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla nec purus feugiat, molestie ipsum et, consequat nibh. Etiam non elit dui. Nullam vel eros sit amet arcu vestibulum accumsan in in leo.</string>
+
+
+</resources>

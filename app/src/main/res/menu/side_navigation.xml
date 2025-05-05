@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_sign_out"
+        android:icon="@drawable/baseline_exit_to_app_24"
+        android:title="Log out" />
+
+    <item
+        android:visible="false"
+        android:id="@+id/nav_teacher_update_details"
+        android:icon="@drawable/baseline_exit_to_app_24"
+        android:title="Update my teacher details" />
+
+    <item
+        android:id="@+id/nav_favorites"
+        android:icon="@drawable/baseline_favorite_24"
+        android:title="Favorites" />
+</menu>

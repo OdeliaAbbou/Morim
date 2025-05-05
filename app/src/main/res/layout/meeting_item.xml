@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minWidth="400dp"
+    android:paddingBottom="8dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="12dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:padding="8dp"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.7"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvMeetingDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="10:00 - 03/04/2024"
+                    android:textColor="#3F51B5"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvMeetingParticipant"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Roni peretz"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.3"
+                android:gravity="end"
+                android:orientation="horizontal"
+                android:paddingEnd="8dp">
+
+                <TextView
+                    android:id="@+id/lessonTag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/online_lesson"
+                    android:textAlignment="viewEnd"
+                    android:textColor="#25A92A"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="8dp"
+            android:translationY="-8dp">
+
+            <TextView
+                android:id="@+id/tvMeetingSubject"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text="Lorem ipsom dolor shlicht esnat dorom elpsom. kirpat deler ipsa ninim tira molor dorom"
+                android:textSize="12sp" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvMeetingPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:gravity="center"
+                android:scaleX="0.5"
+                android:scaleY="0.5"
+                android:text="0503033643"
+                android:textColor="#FC9F19"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:transformPivotX="10dp"
+                android:transformPivotY="15dp"
+                app:drawableEndCompat="@drawable/phone" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tvMeetingEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="8dp"
+                android:scaleX="0.5"
+                android:scaleY="0.5"
+                android:text="ron@hotmail.com"
+                android:textAlignment="viewStart"
+                android:textColor="#FC9F19"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:transformPivotX="10dp"
+                android:transformPivotY="0dp"
+                android:translationY="-4dp"
+                app:drawableEndCompat="@drawable/mail" />
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/showProfileBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Show profile"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center|end"
+            android:orientation="horizontal"
+            android:paddingHorizontal="8dp">
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCancelMeeting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/black"
+                android:layoutDirection="rtl"
+                android:paddingHorizontal="20dp"
+                android:text="Cancel"
+                android:textAlignment="viewStart"
+                android:textSize="16sp"
+                app:icon="@drawable/cancel"
+                app:iconPadding="4dp"
+                app:iconSize="20dp" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/sep"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#C8C8C8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/newLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+
+            android:backgroundTint="#BC2222"
+            app:cardCornerRadius="100dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="8dp"
+            android:text="New"
+            android:textColor="#C12F2F"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btnAddReview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+
+        android:layout_marginBottom="72dp"
+        android:backgroundTint="@android:color/transparent"
+        android:text="Add review"
+        android:textColor="#2E3C8B"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/newLayout" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,36 @@
+{
+  "project_info": {
+    "project_number": "808414327956",
+    "firebase_url": "https://tastyrecipe-880ca-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "tastyrecipe-880ca",
+    "storage_bucket": "tastyrecipe-880ca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:808414327956:android:530a476f27a3f9db57f081",
+        "android_client_info": {
+          "package_name": "com.example.tastyrecipe"
+
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "808414327956-ubcdvr1qs2s06v7to5ohbpouetg6ci0l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1SBpehVH2cIlKi79Isi-TwpU1UkLdIY0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

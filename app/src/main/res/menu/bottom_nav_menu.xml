@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/academy"
+        app:showAsAction="ifRoom"
+        android:title="@string/teachers" />
+<!--    <item-->
+<!--        android:id="@+id/profile"-->
+<!--        android:icon="@drawable/profile_ic"-->
+<!--        android:title="Profile" />-->
+    <item
+        android:id="@+id/myMeetingsFragment"
+        android:icon="@drawable/calendar"
+        app:showAsAction="ifRoom"
+        android:title="@string/meetings" />
+
+    <item
+        android:icon="@drawable/location"
+        app:showAsAction="ifRoom"
+        android:id="@+id/teachersByLocation"
+        android:title="@string/near_me" />
+
+    <item
+        android:icon="@drawable/search"
+        app:showAsAction="ifRoom"
+        android:id="@+id/teacherSearch"
+        android:title="@string/teacher_search" />
+    <item
+        android:id="@+id/chatListFragment"
+        android:icon="@drawable/chat"
+        app:showAsAction="ifRoom"
+        android:title="Chat" />
+
+</menu>
