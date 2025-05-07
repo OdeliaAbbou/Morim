@@ -2,26 +2,38 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
+    android:layout_height="wrap_content"
+    android:padding="12dp"
+    android:background="@android:drawable/dialog_holo_light_frame"
+    android:clickable="true"
+    android:focusable="true">
 
     <ImageView
         android:id="@+id/chatPersonIv"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_margin="8dp"
-        android:src="@drawable/academy"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginEnd="12dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/profile_ic"
+        android:background="@android:color/white"
+        android:contentDescription="Chat image"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <TextView
         android:id="@+id/chatPersonNameTv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="8dp"
-        android:layout_marginTop="16dp"
-        android:text="Yosi hashash"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Name name"
+        android:textColor="#212121"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:maxLines="1"
+        android:ellipsize="end"
         app:layout_constraintStart_toEndOf="@id/chatPersonIv"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/chatPersonIv"
+        app:layout_constraintBottom_toBottomOf="@id/chatPersonIv" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

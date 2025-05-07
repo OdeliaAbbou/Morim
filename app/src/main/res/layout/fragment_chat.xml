@@ -4,14 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- RecyclerView pour afficher les conversations -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewChats"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="16dp" />
 
-    <!-- Texte pour aucune conversation trouvée -->
     <TextView
         android:id="@+id/emptyView"
         android:layout_width="wrap_content"

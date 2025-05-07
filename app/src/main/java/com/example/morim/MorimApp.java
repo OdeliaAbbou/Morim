@@ -25,14 +25,22 @@ public class MorimApp extends Application {
     private static List<String> subjects() {
         return Lists.newArrayList(
                 "Select a subject",
+                "Art & Drawing",
                 "Computer science",
-                "Math",
-                "History",
-                "Music theory",
-                "Science",
-                "Drawing",
                 "Cooking",
-                "Personal trainer"
+                "Economics",
+                "Fitness & Wellness",
+                "History",
+                "Languages",
+                "Law",
+                "Math",
+                "Music",
+                "Philosophy",
+                "Physical Sciences",
+                "Programming",
+                "Psychology",
+                "Public Speaking",
+                "Statistics"
         );
     }
 

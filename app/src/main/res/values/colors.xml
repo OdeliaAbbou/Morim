@@ -3,10 +3,12 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="bordeau">#C51162</color>
-    <color name="light_gray">#F5F5F5</color> <!-- Gris très clair, agréable -->
-    <color name="primary">#3F51B5</color> <!-- Bleu profond Material -->
-    <color name="primary_dark">#303F9F</color> <!-- Variante sombre -->
-    <color name="accent">#FF4081</color> <!-- Rose accent (si besoin) -->
-    <color name="field_background">#F5F5F5</color> <!-- Gris clair agréable -->
+    <color name="light_gray">#F5F5F5</color>
+    <color name="primary">#3F51B5</color>
+    <color name="primary_dark">#303F9F</color>
+    <color name="accent">#FF4081</color>
+    <color name="field_background">#F5F5F5</color>
+    <color name="greenp">#009688</color>
+
 
 </resources>
