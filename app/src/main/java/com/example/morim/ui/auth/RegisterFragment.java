@@ -116,6 +116,17 @@ public class RegisterFragment extends BaseFragment {
                     viewBinding.etLayoutPhoneRegister.setError("Phone must not be empty!");
                     return;
                 }
+                //ajoute maintenant
+                if (!phone.matches("\\d{10}")) {
+                    Toast.makeText(getContext(),  "Phone number must be exactly 10 digits", Toast.LENGTH_LONG).show();
+                    viewBinding.etLayoutPhoneRegister.setError("Invalid phone number!");
+                    return;
+                }
+                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    Toast.makeText(getContext(),  "Please enter a valid email address", Toast.LENGTH_LONG).show();
+                    viewBinding.etLayoutPhoneRegister.setError("Invalid email format!");
+                    return;
+                }
 
                 boolean isTeacher = viewBinding.typeRg.getCheckedRadioButtonId() == viewBinding.typeTeacher.getId();
 

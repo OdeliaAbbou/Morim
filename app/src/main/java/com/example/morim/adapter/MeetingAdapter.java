@@ -77,7 +77,11 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.Meetings
         for (User user : data.getUsers()) {
             users.put(user.getId(), user);
         }
-        data.setMyMeetings(data.getMyMeetings().stream().filter(meeting -> users.containsKey(meeting.getTeacherId()) && users.containsKey(meeting.getStudentId())).collect(Collectors.toList()));
+        data.setMyMeetings(data.getMyMeetings().stream()
+                .filter(meeting -> users.containsKey(meeting.getTeacherId()) && users.containsKey(meeting.getStudentId()))
+                .sorted((m1, m2) -> Long.compare(m2.getMeetingDate(), m1.getMeetingDate()))
+                .collect(Collectors.toList())
+        );
         this.meetingsData = data;
         notifyDataSetChanged();
     }
@@ -151,13 +155,19 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.Meetings
             }
 
             // meeting may be canceled
-            if (meeting.isCanceled()) {
+            if (meeting.isCanceled() ) {
                 binding.lessonTag.setTextColor(Color.RED);
                 binding.lessonTag.setText(
                         String.format("%s", "CANCELED")
                 );
                 binding.btnCancelMeeting.setVisibility(View.GONE);
-            } else {
+            }
+            //ajjoutt
+            else if (meeting.getMeetingDate() <= System.currentTimeMillis()) {
+                binding.lessonTag.setTextColor(Color.GRAY);
+                binding.lessonTag.setText("Completed");
+                binding.btnCancelMeeting.setVisibility(View.GONE);
+            }  else {
                 binding.lessonTag.setTextColor(Color.parseColor("#25A92A"));
                 binding.lessonTag.setText(
                         String.format("%s", "")

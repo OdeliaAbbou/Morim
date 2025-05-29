@@ -80,7 +80,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="8dp"
-                    android:text="Roni Peretz"
+                    android:text="Name name"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -178,13 +178,13 @@
 
             <Button
                 android:id="@+id/btnSchedule"
-                android:layout_width="192dp"
+                android:layout_width="165dp"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/black"
                 android:drawableEnd="@drawable/baseline_calendar_month_24"
                 android:minWidth="250dp"
                 android:paddingHorizontal="20dp"
-                android:text="Schedule with Roni Peretz"
+                android:text="Schedule with Name Name"
                 android:textAlignment="viewStart"
                 android:textColor="@android:color/white"
                 android:textSize="14sp"

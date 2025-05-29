@@ -92,10 +92,18 @@ public class TeacherAdapter extends RecyclerView.Adapter<TeacherAdapter.TeacherV
 
     @SuppressLint("NotifyDataSetChanged")
     public void setTeacherData(List<Teacher> teachers) {
-        this.teachers = teachers;
+        this.teachers = teachers.stream() // conversion en stream car on peut pas f sorted
+                .sorted((t1, t2) -> Double.compare(t2.getAverageRating(), t1.getAverageRating())) // tri décroissant
+                .collect(Collectors.toList()); // retour a une List
+
         notifyDataSetChanged();
     }
 
+//  @SuppressLint("NotifyDataSetChanged")
+//    public void setTeacherData(List<Teacher> teachers) {
+//        this.teachers = teachers;
+//        notifyDataSetChanged();
+//    }
 
     private boolean isFavoritesAvailable() {
         return favorites != null;
