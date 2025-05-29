@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.morim.databinding.ChatItemBinding;
 import com.example.morim.model.Chat;
+import com.example.morim.model.Message;
 import com.example.morim.model.MyChatsData;
 import com.example.morim.model.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -98,6 +99,29 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.ChatViewHold
             binding.getRoot().setOnClickListener(v -> {
                 actions.openChat(c, student, teacher);
             });
+            //
+            // 🔔 Afficher icône s’il y a des messages non lus envoyés par l’autre personne
+            boolean hasUnread = false;
+            String currentUserId = FirebaseAuth.getInstance().getUid();
+
+            if (c.getMessages() != null) {
+                for (Message m : c.getMessages()) {
+                    if (!m.isRead() && !m.getSenderId().equals(currentUserId)) {
+                        hasUnread = true;
+                        break;
+                    }
+                }
+            }
+
+// Afficher ou cacher l'icône selon le résultat
+            if (hasUnread) {
+                binding.unreadIcon.setVisibility(View.VISIBLE);
+            } else {
+                binding.unreadIcon.setVisibility(View.GONE);
+            }
+
+
+
         }
     }
 }

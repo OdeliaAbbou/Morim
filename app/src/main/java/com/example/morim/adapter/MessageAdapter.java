@@ -84,9 +84,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
                 }
                 // change the whole layout direction if its not current user sending
                 if (!sender.getId().equals(FirebaseAuth.getInstance().getUid())) {
-                    itemView.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-                } else
                     itemView.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
+                } else
+                    itemView.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
                 nameTv.setText(sender.getFullName());
             }

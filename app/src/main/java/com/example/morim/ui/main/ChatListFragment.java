@@ -68,4 +68,6 @@ public class ChatListFragment extends BaseFragment {
         super.onDestroyView();
         binding = null;
     }
+
+
 }

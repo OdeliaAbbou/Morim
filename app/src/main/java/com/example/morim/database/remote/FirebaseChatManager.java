@@ -99,4 +99,9 @@ public class FirebaseChatManager {
                 });
     }
 
+
+    public Task<Void> updateChat(Chat c) {
+        return firebaseUtil.updateDoc(CHATS_COLLECTION, c.getId(), c);
+    }
+
 }

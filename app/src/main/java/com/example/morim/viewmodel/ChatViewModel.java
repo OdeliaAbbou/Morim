@@ -223,4 +223,14 @@ public class ChatViewModel extends ViewModel {
         });
     }
 
+
+    public void updateChat(Chat currentChat) {
+        repository.updateChat(currentChat);
+
+    }
+
+
+
+
+
 }

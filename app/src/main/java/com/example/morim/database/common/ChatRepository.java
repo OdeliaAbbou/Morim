@@ -93,6 +93,9 @@ public class ChatRepository {
     public void getMyChats(OnDataCallback<List<Chat>> chats) {
         remoteDb.getMyChats(chats);
     }
+    public Task<Void> updateChat(Chat chat) {
+        return remoteDb.updateChat(chat);
+    }
 
 
 }

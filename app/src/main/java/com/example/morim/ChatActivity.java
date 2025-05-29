@@ -83,18 +83,57 @@ public class ChatActivity extends BaseActivity {
             });
         }
 
+//        chatViewModel.getActiveChat().observe(this, new Observer<SingleChatData>() {
+//            @Override
+//            public void onChanged(SingleChatData singleChatData) {
+//                ChatActivity.this.currentChat = singleChatData.getMyChat();
+//                if (singleChatData.allResourcesAvailable()) {
+//                    System.out.println(singleChatData.getMyChat().getStudentId() + ", " + singleChatData.getMyChat().getTeacherId() + ", " + singleChatData.getMyChat().getMessages().size());
+//                    Log.d("ChatActivity", "onChanged: " + singleChatData.getMyChat().getMessages().size());
+//
+//
+//
+//                    adapter.update(singleChatData.getMyChat().getMessages());
+//                    recyclerView.scrollToPosition(singleChatData.getMyChat().getMessages().size() - 1);
+//                }
+//            }
+//        });
+
         chatViewModel.getActiveChat().observe(this, new Observer<SingleChatData>() {
             @Override
             public void onChanged(SingleChatData singleChatData) {
-                ChatActivity.this.currentChat = singleChatData.getMyChat();
-                if (singleChatData.allResourcesAvailable()) {
-                    System.out.println(singleChatData.getMyChat().getStudentId() + ", " + singleChatData.getMyChat().getTeacherId() + ", " + singleChatData.getMyChat().getMessages().size());
-                    Log.d("ChatActivity", "onChanged: " + singleChatData.getMyChat().getMessages().size());
-                    adapter.update(singleChatData.getMyChat().getMessages());
-                    recyclerView.scrollToPosition(singleChatData.getMyChat().getMessages().size() - 1);
+                Chat currentChat = singleChatData.getMyChat();
+
+                // 🔒 Sécurité : éviter le crash si données incomplètes
+                if (!singleChatData.allResourcesAvailable() || currentChat == null || currentChat.getMessages() == null)
+                    return;
+
+                ChatActivity.this.currentChat = currentChat;
+
+                // ✅ Marquer les messages reçus comme lus
+                String currentUserId = FirebaseAuth.getInstance().getUid();
+                boolean updated = false;
+
+                for (Message m : currentChat.getMessages()) {
+                    if (!m.isRead() && !m.getSenderId().equals(currentUserId)) {
+                        m.setRead(true);
+                        updated = true;
+                    }
                 }
+
+                if (updated) {
+                    chatViewModel.updateChat(currentChat);
+                }
+
+                // ✅ Affichage des messages
+                Log.d("ChatActivity", "onChanged: " + currentChat.getMessages().size());
+                System.out.println(currentChat.getStudentId() + ", " + currentChat.getTeacherId() + ", " + currentChat.getMessages().size());
+
+                adapter.update(currentChat.getMessages());
+                recyclerView.scrollToPosition(currentChat.getMessages().size() - 1);
             }
         });
+
         chatViewModel.getUsers(new OnDataCallback<List<User>>() {
             @Override
             public void onData(List<User> value) {
@@ -127,6 +166,12 @@ public class ChatActivity extends BaseActivity {
             }
             messageInput.setText("");
         });
+
+        ImageButton backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(v -> {
+            finish(); // ferme l'activité et retourne au fragment précédent
+        });
+
     }
 
 

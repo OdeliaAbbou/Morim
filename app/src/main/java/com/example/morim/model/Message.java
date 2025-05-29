@@ -4,6 +4,8 @@ public class Message {
     private String senderId;
     private String content;
     private long timestamp;
+    private boolean isRead = false;
+
 
     public Message() {
         // Constructeur vide pour Firebase
@@ -38,5 +40,11 @@ public class Message {
 
     public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
+    }
+    public boolean isRead() {
+        return isRead;
+    }
+    public void setRead(boolean isRead) {
+        this.isRead = isRead;
     }
 }
