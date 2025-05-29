@@ -34,8 +34,8 @@
                     android:id="@+id/tvMeetingDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="10:00 - 03/04/2024"
-                    android:textColor="#3F51B5"
+                    android:text="10:00 - 01/06/2025"
+                    android:textColor="#00695C"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -43,7 +43,7 @@
                     android:id="@+id/tvMeetingParticipant"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Roni peretz"
+                    android:text="Name name"
                     android:textColor="@color/black"
                     android:textSize="16sp" />
             </LinearLayout>
@@ -60,9 +60,9 @@
                     android:id="@+id/lessonTag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/online_lesson"
+                    android:text="tag"
                     android:textAlignment="viewEnd"
-                    android:textColor="#25A92A"
+                    android:textColor="#00695C"
                     android:textStyle="bold" />
 
 
@@ -82,7 +82,7 @@
                 android:id="@+id/tvMeetingSubject"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:text="Lorem ipsom dolor shlicht esnat dorom elpsom. kirpat deler ipsa ninim tira molor dorom"
+                android:text="subject"
                 android:textSize="12sp" />
 
 
@@ -94,13 +94,15 @@
                 android:gravity="center"
                 android:scaleX="0.5"
                 android:scaleY="0.5"
-                android:text="0503033643"
-                android:textColor="#FC9F19"
+                android:text="055555555"
+                android:textColor="#3F51B5"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:transformPivotX="10dp"
                 android:transformPivotY="15dp"
-                app:drawableEndCompat="@drawable/phone" />
+                app:drawableStartCompat="@drawable/phone"
+            app:drawableTint="#3F51B5" />
+
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/tvMeetingEmail"
@@ -109,15 +111,17 @@
                 android:drawablePadding="8dp"
                 android:scaleX="0.5"
                 android:scaleY="0.5"
-                android:text="ron@hotmail.com"
+                android:text="mail@gmail.com"
                 android:textAlignment="viewStart"
-                android:textColor="#FC9F19"
+                android:textColor="#3F51B5"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:transformPivotX="10dp"
                 android:transformPivotY="0dp"
                 android:translationY="-4dp"
-                app:drawableEndCompat="@drawable/mail" />
+                app:drawableStartCompat="@drawable/mail"
+            app:drawableTint="#3F51B5" />
+
 
             <TextView
                 android:visibility="gone"
@@ -173,20 +177,20 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="10dp"
-            android:layout_height="10dp"
+<!--        <androidx.cardview.widget.CardView-->
+<!--            android:layout_width="10dp"-->
+<!--            android:layout_height="10dp"-->
 
-            android:backgroundTint="#BC2222"
-            app:cardCornerRadius="100dp" />
+<!--            android:backgroundTint="#BC2222"-->
+<!--            app:cardCornerRadius="100dp" />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingHorizontal="8dp"
-            android:text="New"
-            android:textColor="#C12F2F"
-            android:textStyle="bold" />
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:paddingHorizontal="8dp"-->
+<!--            android:text="New"-->
+<!--            android:textColor="#C12F2F"-->
+<!--            android:textStyle="bold" />-->
 
     </LinearLayout>
 
@@ -200,7 +204,7 @@
         android:layout_marginBottom="72dp"
         android:backgroundTint="@android:color/transparent"
         android:text="Add review"
-        android:textColor="#2E3C8B"
+        android:textColor="#00695C"
         android:textSize="20sp"
         android:textStyle="bold"
         android:visibility="visible"

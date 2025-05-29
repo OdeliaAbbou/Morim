@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#03A9F4" /> <!-- Couleur de fond des messages envoyés -->
+    <solid android:color="#43A047" /> <!-- Couleur de fond des messages envoyés -->
     <corners android:radius="8dp" />  <!-- Coins arrondis -->
     <padding
         android:left="8dp"

@@ -33,7 +33,7 @@
         android:layout_marginTop="18dp"
         android:layout_marginEnd="8dp"
         android:text="New (0) Upcomming (2)"
-        android:textColor="#F44336"
+        android:textColor="#E91E63"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@id/notificationsIv"
         app:layout_constraintTop_toTopOf="parent"

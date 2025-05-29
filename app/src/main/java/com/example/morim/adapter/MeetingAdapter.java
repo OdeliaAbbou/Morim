@@ -160,7 +160,7 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.Meetings
             } else {
                 binding.lessonTag.setTextColor(Color.parseColor("#25A92A"));
                 binding.lessonTag.setText(
-                        String.format("%s", "Online Lesson")
+                        String.format("%s", "")
                 );
                 binding.btnCancelMeeting.setVisibility(View.VISIBLE);
             }

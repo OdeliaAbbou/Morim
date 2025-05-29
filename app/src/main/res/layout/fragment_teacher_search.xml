@@ -110,7 +110,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/apply_filter"
-        android:backgroundTint="@color/purple_500"
+        android:backgroundTint="#3949AB"
         android:textColor="@android:color/white"
         app:layout_constraintTop_toBottomOf="@id/filterLayout"
         app:layout_constraintStart_toStartOf="parent"
