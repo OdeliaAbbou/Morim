@@ -138,7 +138,7 @@ public class FirebaseUserManager {
                     if (form instanceof TeacherRegisterForm) {
                         TeacherRegisterForm teacherForm = (TeacherRegisterForm) form;
                         user = new Teacher(
-                                id, teacherForm.getEmail(), teacherForm.getFullName(), teacherForm.getAddress(), form.getPhone(), "",
+                                id, teacherForm.getEmail(), teacherForm.getFullName(),  form.getPhone(),teacherForm.getAddress(), "",
                                 teacherForm.getTeachingSubjects(),
                                 teacherForm.getTeachingArea(),
                                 teacherForm.getEducation(),

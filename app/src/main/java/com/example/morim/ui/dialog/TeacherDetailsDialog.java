@@ -96,6 +96,7 @@ public class TeacherDetailsDialog extends DialogFragment {
         this.teachingArea = teachingArea;
         this.teachingLocation = teachingLocation;
         this.selectedSubjects.addAll(subjects);
+        binding.etEducationDetails.setText(education);
         binding.etPrice.setText(String.valueOf(price));
         setSelectedSubjects();
     }

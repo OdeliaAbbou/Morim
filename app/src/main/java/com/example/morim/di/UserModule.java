@@ -82,4 +82,6 @@ public class UserModule {
             UserRepository userRepository) {
         return new CurrentUserRepository(executor, meetingDao, currentUserDao, userRepository);
     }
+
+
 }

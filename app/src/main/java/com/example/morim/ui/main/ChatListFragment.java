@@ -48,6 +48,9 @@ public class ChatListFragment extends BaseFragment {
             @Override
             public void onChanged(MyChatsData myChatsData) {
                 if (myChatsData.allResourcesAvailable()) {
+
+                    myChatsData.sortChatsByLastMessage(); // //
+
                     binding.rvChats.setAdapter(new ChatsAdapter(myChatsData, new ChatsAdapter.ChatItemAction() {
                         @Override
                         public void openChat(Chat c, User student, User teacher) {

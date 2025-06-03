@@ -271,4 +271,9 @@ public class MainViewModel extends ViewModel {
     public void getCurrentUserOnce(OnDataCallback<User> onDataCallback) {
         userRepository.getCurrentUser(onDataCallback);
     }
+
+////
+public void updateTeacherLocally(Teacher teacher) {
+    userRepository.updateTeacherLocally(teacher);
+}
 }

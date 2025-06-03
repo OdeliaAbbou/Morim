@@ -50,4 +50,17 @@ public class MyChatsData {
                 ", myMeetings=" + myChats +
                 '}';
     }
+
+    public void sortChatsByLastMessage() {
+        myChats.sort((c1, c2) -> {
+            long t1 = c1.getMessages().isEmpty() ? c1.getCreatedAt() :
+                    c1.getMessages().get(c1.getMessages().size() - 1).getTimestamp();
+
+            long t2 = c2.getMessages().isEmpty() ? c2.getCreatedAt() :
+                    c2.getMessages().get(c2.getMessages().size() - 1).getTimestamp();
+
+            return Long.compare(t2, t1);
+        });
+    }
+
 }

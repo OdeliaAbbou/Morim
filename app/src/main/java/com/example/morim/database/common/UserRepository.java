@@ -217,4 +217,14 @@ public class UserRepository {
     public void getUsers(OnDataCallback<List<User>> callback) {
         remoteDb.getUsers(callback);
     }
+
+
+
+    //////////////////
+    public void updateTeacherLocally(Teacher teacher) {
+        executor.execute(() -> {
+            teacherDao.update(teacher);
+        });
+    }
+
 }

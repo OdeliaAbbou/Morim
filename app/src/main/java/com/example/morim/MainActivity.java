@@ -39,6 +39,7 @@ import com.example.morim.viewmodel.MainViewModel;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.Gson;
 
 import java.util.HashSet;
 import java.util.List;
@@ -61,6 +62,9 @@ public class MainActivity extends BaseActivity {
 
     @Inject
     protected FirebaseUserManager userManager;
+    private NavController navController;
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -74,7 +78,7 @@ public class MainActivity extends BaseActivity {
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.main_nav_host_fragment);
-        NavController navController = navHostFragment.getNavController();
+         navController = navHostFragment.getNavController();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)
             if (checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_DENIED) {
                 requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 106);
@@ -168,6 +172,9 @@ public class MainActivity extends BaseActivity {
                                 @Override
                                 public void onData(User value) {
                                     Toast.makeText(MainActivity.this, "Details updated successfully", Toast.LENGTH_SHORT).show();
+                                    ////////for update details
+                                    mainViewModel.updateTeacherLocally((Teacher) value);
+
                                 }
 
                                 @Override
@@ -189,7 +196,51 @@ public class MainActivity extends BaseActivity {
         } else if (item.getItemId() == R.id.nav_favorites) {
            new FavoritesFragment(mainViewModel).show(getSupportFragmentManager(), "Favorites");
         }
+
+        //////////////////profile
+        else if (item.getItemId() == R.id.nav_profile) {
+            User user = mainViewModel.getCurrentUser().getValue();
+            if (user == null || !user.isTeacher()) {
+                Toast.makeText(this, "Vous n’êtes pas connecté en tant qu’enseignant.", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+
+            // On récupère l’ID du professeur (qui est le même que user.getId())
+            String teacherId = user.getId();
+
+            // Appel asynchrone pour obtenir l’objet Teacher complet depuis Firestore
+            userManager.getTeacher(teacherId, new OnDataCallback<Teacher>() {
+                @Override
+                public void onData(Teacher t) {
+                    if (t == null) {
+                        Toast.makeText(MainActivity.this, "Profil introuvable.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    // 1. Sérialiser en JSON et passer au fragment
+                    String teacherJson = new Gson().toJson(t);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("teacher", teacherJson);
+
+                    // 2. Naviguer vers TeacherFragment en lui passant le Bundle
+                    navController.navigate(R.id.teacherFragment, bundle);
+
+                }
+
+                @Override
+                public void onException(Exception e) {
+                    Toast.makeText(MainActivity.this, "Erreur de chargement.", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            return true;
+        }
+
+
         return super.onOptionsItemSelected(item);
+
+
+
+
 
     }
 }
