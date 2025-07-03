@@ -2,6 +2,15 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="AuthActivityTest">
+        <State />
+      </entry>
+      <entry key="AuthActivityUIIntegrationTest">
+        <State />
+      </entry>
+      <entry key="LoginInstrumentedTest">
+        <State />
+      </entry>
       <entry key="app">
         <State>
           <targetSelectedWithDropDown>
@@ -17,6 +26,9 @@
           </targetSelectedWithDropDown>
           <timeTargetWasSelectedWithDropDown value="2025-05-25T19:52:15.731896300Z" />
         </State>
+      </entry>
+      <entry key="login_withInvalidCredentials_shouldShowError()">
+        <State />
       </entry>
     </value>
   </component>

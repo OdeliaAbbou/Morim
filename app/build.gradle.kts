@@ -18,6 +18,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.tastyrecipe"
+
         minSdk = 27
         targetSdk = 34
         versionCode = 1
@@ -44,6 +45,12 @@ android {
 //    defaultConfig {
 //        manifestPlaceholders["MAPS_API_KEY"] = "AIzaSyBkC2aOxt-ilf1o8ff06iJb5UeJ1GvSVWk"
 //    }
+//tests
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources  = true
+        }
+    }
 }
 
 dependencies {
@@ -89,8 +96,21 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.1")
+
 //google
    // implementation("com.google.android.gms:play-services-auth:20.7.0")
 
+//test
+    androidTestImplementation ("androidx.test:core:1.5.0")
+    androidTestImplementation ("androidx.test:rules:1.5.0")
+    // pour ActivityTestRule / ActivityScenarioRule
+    androidTestImplementation("androidx.test:core:1.5.0")
+    androidTestImplementation("androidx.test:rules:1.5.0")
+    // pour Robolectric (tests unitaires)
+    testImplementation("org.robolectric:robolectric:4.10.3")
+    // Hilt pour les tests unitaires
+    testImplementation ("com.google.dagger:hilt-android-testing:2.51")
+    testAnnotationProcessor ("com.google.dagger:hilt-compiler:2.51")
 
 }
