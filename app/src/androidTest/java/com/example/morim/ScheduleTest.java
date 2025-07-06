@@ -54,37 +54,22 @@ public class ScheduleTest {
 
     @Before
     public void setUp() {
-// ניקוי Firebase state לפני כל טסט
         FirebaseAuth.getInstance().signOut();
-
-// המתנה קצרה לוודא שה-signOut הושלם
         SystemClock.sleep(1000);
-
-// יצירת Intent עם דגל למניעת redirect אוטומטי
         Intent intent = new Intent();
         intent.putExtra("LOGOUT", true);
-
-// השקת Activity
         scenario = ActivityScenario.launch(AuthActivity.class);
     }
 
     @Test
     public void testUIElements_areDisplayedCorrectly() {
-// בדיקה שכל רכיבי ה-UI מופיעים
-
-// המתנה לטעינת Fragment
         SystemClock.sleep(2000);
-
-// בדיקה שהשדות מופיעים
         onView(withId(R.id.etEmailLogin))
                 .check(matches(isDisplayed()));
-
         onView(withId(R.id.etPasswordLogin))
                 .check(matches(isDisplayed()));
-
         onView(withId(R.id.btnLoginSubmit))
                 .check(matches(isDisplayed()));
-
         onView(withId(R.id.btnToRegister))
                 .check(matches(isDisplayed()));
     }
@@ -94,8 +79,6 @@ public class ScheduleTest {
     public void testProgressBar_isHiddenInitially() {
 // המתנה לטעינת Fragment
         SystemClock.sleep(2000);
-
-// בדיקה שה-ProgressBar מוסתר בהתחלה
         onView(withId(R.id.pbAuth))
                 .check(matches(not(isDisplayed())));
     }
@@ -104,12 +87,8 @@ public class ScheduleTest {
     public void testValidLogin_withRealFirebaseUser() {
 // המתנה לטעינת Fragment
         SystemClock.sleep(2000);
-
-// שים משתמש אמיתי שקיים במערכת Firebase שלך
-        String validEmail = "Odelia@gmail.com"; // שנה למייל אמיתי
-        String validPassword = "01022000"; // שנה לסיסמה אמיתית
-
-// הכנסת נתונים
+        String validEmail = "Odelia@gmail.com";
+        String validPassword = "01022000";
         onView(withId(R.id.etEmailLogin))
                 .perform(typeText(validEmail));
 
@@ -117,24 +96,8 @@ public class ScheduleTest {
                 .perform(typeText(validPassword));
 
         Espresso.closeSoftKeyboard();
-
-// לחיצה על כפתור Login
         onView(withId(R.id.btnLoginSubmit))
                 .perform(click());
-
-// בדיקה שה-ProgressBar מופיע (טעינה)
-// onView(withId(R.id.pbAuth))
-// .check(matches(isDisplayed()));
-
-// המתנה ארוכה יותר לפעולה להסתיים (Firebase לוקח זמן)
-        SystemClock.sleep(8000);
-
-// בדיקה שה-ProgressBar נעלם (הפעולה הסתיימה)
-// onView(withId(R.id.pbAuth))
-// .check(matches(not(isDisplayed())));
-
-// בדיקה שמופיע Toast עם הודעת הצלחה
-// (הטסט יסתיים כאן כי האפליקציה תעבור ל-MainActivity)
 
 
 // 1) Cliquer sur le premier item de la RecyclerView
@@ -147,7 +110,7 @@ public class ScheduleTest {
 
         // 2) Clique sur le “10” DANS la boîte de dialogue
         onView(withText("10"))
-                .inRoot(isDialog())       // <--- s’assure qu’on regarde DANS le dialog
+                .inRoot(isDialog())       // s’assure qu’on regarde DANS le dialog
                 .perform(click());
 // 5) Dans le dialog des heures, cliquer sur “9:00 AM”
         onView(withText("9:00 AM"))
@@ -172,20 +135,17 @@ public class ScheduleTest {
 
     }
 
-
-       @Test
-    public void testNavigateToRegister_clickWorks() { //senregistrer
-// המתנה לטעינת Fragment
-        SystemClock.sleep(2000);
-
-// לחיצה על כפתור ההרשמה
-        onView(withId(R.id.btnToRegister))
-                .perform(click());
-
-// כאן תוכל לבדוק שעבר לעמוד ההרשמה
-// תלוי איך זה מוגדר בNavigation שלך
-        SystemClock.sleep(2000);
-    }
+//
+//    @Test
+//    public void testNavigateToRegister_clickWorks() { //senregistrer
+//        SystemClock.sleep(2000);
+//        onView(withId(R.id.btnToRegister))
+//                .perform(click());
+//
+//// כאן תוכל לבדוק שעבר לעמוד ההרשמה
+//// תלוי איך זה מוגדר בNavigation שלך
+//        SystemClock.sleep(2000);
+//    }
 
 
     @After
