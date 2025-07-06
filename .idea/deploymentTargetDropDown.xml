@@ -11,6 +11,12 @@
       <entry key="LoginInstrumentedTest">
         <State />
       </entry>
+      <entry key="ScheduleTeacherTest">
+        <State />
+      </entry>
+      <entry key="ScheduleTest">
+        <State />
+      </entry>
       <entry key="app">
         <State>
           <targetSelectedWithDropDown>
@@ -26,9 +32,6 @@
           </targetSelectedWithDropDown>
           <timeTargetWasSelectedWithDropDown value="2025-05-25T19:52:15.731896300Z" />
         </State>
-      </entry>
-      <entry key="login_withInvalidCredentials_shouldShowError()">
-        <State />
       </entry>
     </value>
   </component>

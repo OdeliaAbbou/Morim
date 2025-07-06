@@ -1,3 +1,4 @@
+
 plugins {
     id("com.android.application")
     id("androidx.navigation.safeargs")
@@ -6,6 +7,14 @@ plugins {
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 
 }
+
+//bugg
+// Exclut partout protobuf-lite
+configurations.all {
+    exclude(group = "com.google.protobuf", module = "protobuf-lite")
+}
+
+
 
 android {
     namespace = "com.example.morim"
@@ -54,9 +63,15 @@ android {
 }
 
 dependencies {
+
+    //bugg
+    implementation("com.google.protobuf:protobuf-javalite:3.22.3")
+
+
     implementation("androidx.databinding:viewbinding:8.3.1")
     implementation("com.google.android.libraries.places:places:3.4.0")
     implementation("com.google.firebase:firebase-appcheck-playintegrity:17.1.2")
+    implementation("androidx.test.espresso:espresso-contrib:3.6.1")
     // Room
     val roomVersion = "2.6.1"
     implementation("androidx.room:room-runtime:$roomVersion")
