@@ -6,6 +6,7 @@ import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import static org.hamcrest.CoreMatchers.not;
 
@@ -94,7 +95,14 @@ public class AuthActivityUIIntegrationTest {
 
         onView(withId(R.id.btnLoginSubmit))
                 .perform(click());
-        SystemClock.sleep(8000);
+        SystemClock.sleep(3000);
+
+        // 🔍 Vérifie que le nom de l'utilisateur s'affiche après la connexion
+        onView(withId(R.id.titleMorim))
+                .check(matches(isDisplayed()))
+                .check(matches(withText("Hi odelia")));
+
+
 
     }
 

@@ -1,32 +1,25 @@
 package com.example.morim;
 
-import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.contrib.PickerActions.setDate;
 import static androidx.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
-import static androidx.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static androidx.test.espresso.matcher.RootMatchers.isDialog;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.core.IsEqual.equalTo;
 
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
 import android.content.Intent;
 import android.os.SystemClock;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.GridView;
 
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.espresso.Espresso;
@@ -44,7 +37,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class ScheduleTest {
+public class ScheduleMeetingTest {
 
     @Rule
     public GrantPermissionRule permissionRule =
@@ -99,6 +92,7 @@ public class ScheduleTest {
         onView(withId(R.id.btnLoginSubmit))
                 .perform(click());
 
+        SystemClock.sleep(3000);
 
 // 1) Cliquer sur le premier item de la RecyclerView
         onView(withId(R.id.rvTeachers))
@@ -107,15 +101,21 @@ public class ScheduleTest {
 // 2) Cliquer sur le bouton “Schedule” qui apparaît dans le détail du prof
         onView(withId(R.id.btnSchedule))
                 .perform(click());
+        SystemClock.sleep(2000);
+
 
         // 2) Clique sur le “10” DANS la boîte de dialogue
         onView(withText("10"))
                 .inRoot(isDialog())       // s’assure qu’on regarde DANS le dialog
                 .perform(click());
+        SystemClock.sleep(2000);
+
 // 5) Dans le dialog des heures, cliquer sur “9:00 AM”
-        onView(withText("9:00 AM"))
+        onView(withText("11:00 AM"))
                 .inRoot(isDialog())
                 .perform(click());
+        SystemClock.sleep(2000);
+
 // 6) Valider le créneau en appuyant sur “SCHEDULE”
         onView(withText("SCHEDULE"))
                 .inRoot(isDialog())
@@ -126,26 +126,45 @@ public class ScheduleTest {
                 isDisplayed()        // ou un autre matcher View pour cibler ton EditText
         ))
                 .inRoot(isDialog())
-                .perform(typeText("Tests"), closeSoftKeyboard());
+                .perform(typeText("Tests 3"), closeSoftKeyboard());
 // 9) Valider en cliquant sur “OK”
         onView(withText("OK"))
                 .inRoot(isDialog())
                 .perform(click());
         SystemClock.sleep(2000);
 
+        /////////verifie
+        // Clique sur le bouton Meetings dans la BottomNavigationView
+        onView(withId(R.id.bottom_navigation))
+                .perform(click());
+        // Clique sur l’item myMeetingsFragment
+        onView(allOf(withId(R.id.myMeetingsFragment), isDisplayed()))
+                .perform(click());
+
+        SystemClock.sleep(3000); // laisse le temps aux données de s'afficher
+
+        // Vérifie qu’un meeting avec le texte "Tests" existe dans le RecyclerView
+        onView(withText("Tests 3"))
+                .check(matches(isDisplayed()));
+
     }
 
-//
 //    @Test
-//    public void testNavigateToRegister_clickWorks() { //senregistrer
-//        SystemClock.sleep(2000);
-//        onView(withId(R.id.btnToRegister))
+//    public void testMeetingAppearsInMyMeetings() {
+//        // Clique sur le bouton Meetings dans la BottomNavigationView
+//        onView(withId(R.id.bottom_navigation))
+//                .perform(click());
+//        // Clique sur l’item myMeetingsFragment
+//        onView(allOf(withId(R.id.myMeetingsFragment), isDisplayed()))
 //                .perform(click());
 //
-//// כאן תוכל לבדוק שעבר לעמוד ההרשמה
-//// תלוי איך זה מוגדר בNavigation שלך
-//        SystemClock.sleep(2000);
+//        SystemClock.sleep(3000); // laisse le temps aux données de s'afficher
+//
+//        // Vérifie qu’un meeting avec le texte "Tests" existe dans le RecyclerView
+//        onView(withText("Tests 2"))
+//                .check(matches(isDisplayed()));
 //    }
+//
 
 
     @After

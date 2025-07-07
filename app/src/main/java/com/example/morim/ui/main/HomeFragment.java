@@ -119,6 +119,9 @@ public class HomeFragment extends BaseFragment implements TeacherAdapter.Teacher
                 if (adapter != null && user instanceof Student) {
                     adapter.updateCurrentUser((Student) user);
                     stud = (Student) user;
+                    //CHANGEMENT
+                    viewBinding.titleMorim.setText("Hi " + user.getFullName());
+
                 } else {
                     Log.d("HomeFragment", "onChanged: User is not student");
                 }
