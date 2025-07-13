@@ -76,13 +76,13 @@ public class RegisterTest {
                 .perform(setImageFromAssets("testImage.jpg"));
 
         onView(withId(R.id.etFullNameRegister))
-                .perform(scrollTo(), typeText("Test Student"), closeSoftKeyboard());
+                .perform(scrollTo(), typeText("TestStudent"), closeSoftKeyboard());
         onView(withId(R.id.etAddressRegister))
                 .perform(scrollTo(), typeText("123 Rue Exemple"), closeSoftKeyboard());
         onView(withId(R.id.etPhoneRegister))
                 .perform(scrollTo(), typeText("0612345678"), closeSoftKeyboard());
         onView(withId(R.id.etEmailRegister))
-                .perform(scrollTo(), typeText("student7@example.com"), closeSoftKeyboard());
+                .perform(scrollTo(), typeText("student9@example.com"), closeSoftKeyboard());
         onView(withId(R.id.etPasswordRegister))
                 .perform(scrollTo(), typeText("password123"), closeSoftKeyboard());
 
@@ -93,6 +93,12 @@ public class RegisterTest {
                 .perform(scrollTo(), click());
 
         SystemClock.sleep(10000);
+
+        // 🔍 Vérifie que le nom de l'utilisateur s'affiche après la connexion
+        onView(withId(R.id.titleMorim))
+                .check(matches(isDisplayed()))
+                .check(matches(withText("Hi TestStudent")));
+
 
     }
 
@@ -107,13 +113,13 @@ public class RegisterTest {
                 .perform(setImageFromAssets("testImage.jpg"));
 
         onView(withId(R.id.etFullNameRegister))
-                .perform(scrollTo(), typeText("Test Teacher"), closeSoftKeyboard());
+                .perform(scrollTo(), typeText("TestTeacher"), closeSoftKeyboard());
         onView(withId(R.id.etAddressRegister))
                 .perform(scrollTo(), typeText("123 Rue Exemple"), closeSoftKeyboard());
         onView(withId(R.id.etPhoneRegister))
                 .perform(scrollTo(), typeText("0612345678"), closeSoftKeyboard());
         onView(withId(R.id.etEmailRegister))
-                .perform(scrollTo(), typeText("teacher1@example.com"), closeSoftKeyboard());
+                .perform(scrollTo(), typeText("teacher2@example.com"), closeSoftKeyboard());
         onView(withId(R.id.etPasswordRegister))
                 .perform(scrollTo(), typeText("password123"), closeSoftKeyboard());
 
@@ -164,6 +170,13 @@ public class RegisterTest {
                     )).perform(click());
                 }
             }
+            SystemClock.sleep(5000);
+
+            // 🔍 Vérifie que le nom de l'utilisateur s'affiche après la connexion
+            onView(withId(R.id.titleMorim))
+                    .check(matches(isDisplayed()))
+                    .check(matches(withText("Hi TestTeacher")));
+
         }
 
 

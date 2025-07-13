@@ -11,9 +11,6 @@
       <entry key="ScheduleMeetingTest">
         <State />
       </entry>
-      <entry key="ScheduleTeacherTest">
-        <State />
-      </entry>
       <entry key="app">
         <State>
           <targetSelectedWithDropDown>
@@ -29,6 +26,9 @@
           </targetSelectedWithDropDown>
           <timeTargetWasSelectedWithDropDown value="2025-05-25T19:52:15.731896300Z" />
         </State>
+      </entry>
+      <entry key="testRegisterAsStudent_withTestImage()">
+        <State />
       </entry>
       <entry key="testRegisterAsTeacher_withTestImage()">
         <State />

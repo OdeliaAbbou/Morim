@@ -157,21 +157,6 @@ public class AuthActivityUIIntegrationTest {
                 .check(matches(isDisplayed()));
     }
 
-    @Test
-//    public void testEmptyPassword_showsValidationError() {
-//        SystemClock.sleep(2000);
-//
-//        onView(withId(R.id.etEmailLogin))
-//                .perform(typeText("test@example.com"));
-//
-//        Espresso.closeSoftKeyboard();
-//
-//        onView(withId(R.id.btnLoginSubmit))
-//                .perform(click());
-//
-//        onView(withId(R.id.etLayoutPasswordLogin))
-//                .check(matches(isDisplayed()));
-//    }
 
     @After
     public void tearDown() {
