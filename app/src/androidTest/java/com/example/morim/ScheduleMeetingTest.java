@@ -111,7 +111,7 @@ public class ScheduleMeetingTest {
         SystemClock.sleep(2000);
 
 // 5) Dans le dialog des heures, cliquer sur “9:00 AM”
-        onView(withText("11:00 AM"))
+        onView(withText("12:00 AM"))
                 .inRoot(isDialog())
                 .perform(click());
         SystemClock.sleep(2000);
@@ -126,7 +126,7 @@ public class ScheduleMeetingTest {
                 isDisplayed()        // ou un autre matcher View pour cibler ton EditText
         ))
                 .inRoot(isDialog())
-                .perform(typeText("Tests 3"), closeSoftKeyboard());
+                .perform(typeText("Tests 4"), closeSoftKeyboard());
 // 9) Valider en cliquant sur “OK”
         onView(withText("OK"))
                 .inRoot(isDialog())
@@ -144,7 +144,7 @@ public class ScheduleMeetingTest {
         SystemClock.sleep(3000); // laisse le temps aux données de s'afficher
 
         // Vérifie qu’un meeting avec le texte "Tests" existe dans le RecyclerView
-        onView(withText("Tests 3"))
+        onView(withText("Tests 4"))
                 .check(matches(isDisplayed()));
 
     }

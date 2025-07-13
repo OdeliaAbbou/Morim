@@ -2,9 +2,6 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="AuthActivityTest">
-        <State />
-      </entry>
       <entry key="AuthActivityUIIntegrationTest">
         <State />
       </entry>
@@ -32,6 +29,9 @@
           </targetSelectedWithDropDown>
           <timeTargetWasSelectedWithDropDown value="2025-05-25T19:52:15.731896300Z" />
         </State>
+      </entry>
+      <entry key="testRegisterAsTeacher_withTestImage()">
+        <State />
       </entry>
     </value>
   </component>
