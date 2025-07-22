@@ -82,7 +82,7 @@ public class RegisterTest {
         onView(withId(R.id.etPhoneRegister))
                 .perform(scrollTo(), typeText("0612345678"), closeSoftKeyboard());
         onView(withId(R.id.etEmailRegister))
-                .perform(scrollTo(), typeText("student14@example.com"), closeSoftKeyboard());
+                .perform(scrollTo(), typeText("student15@example.com"), closeSoftKeyboard());
         onView(withId(R.id.etPasswordRegister))
                 .perform(scrollTo(), typeText("password123"), closeSoftKeyboard());
 
@@ -99,7 +99,8 @@ public class RegisterTest {
                 .check(matches(isDisplayed()))
                 .check(matches(withText("Hi TestStudent")));
 
-
+        // 🔓 LOGOUT après le test réussi pour préparer le test suivant
+        performLogout();
     }
 
     @Test
@@ -119,7 +120,7 @@ public class RegisterTest {
         onView(withId(R.id.etPhoneRegister))
                 .perform(scrollTo(), typeText("0612345678"), closeSoftKeyboard());
         onView(withId(R.id.etEmailRegister))
-                .perform(scrollTo(), typeText("teacher12@example.com"), closeSoftKeyboard());
+                .perform(scrollTo(), typeText("teacher13@example.com"), closeSoftKeyboard());
         onView(withId(R.id.etPasswordRegister))
                 .perform(scrollTo(), typeText("password123"), closeSoftKeyboard());
 
@@ -140,7 +141,7 @@ public class RegisterTest {
                 .perform(click());
         SystemClock.sleep(3000);
 
-/////////////localisation
+        //////////////localisation
         onView(withId(R.id.autocomplete_fragment))
                 .perform(click());
         SystemClock.sleep(1000);
@@ -170,13 +171,9 @@ public class RegisterTest {
                     )).perform(click());
                 }
             }
-            SystemClock.sleep(5000);
-
-
         }
 
-
-        SystemClock.sleep(500);
+        SystemClock.sleep(5000);
 
         onView(withId(R.id.etEducationDetails))
                 .perform(typeText("Master in Math"));
@@ -191,7 +188,6 @@ public class RegisterTest {
         onView(withId(R.id.btnSaveChangesDialog))
                 .perform(click());
 
-
         SystemClock.sleep(10000);
 
         // 🔍 Vérifie que le nom de l'utilisateur s'affiche après la connexion
@@ -199,10 +195,62 @@ public class RegisterTest {
                 .check(matches(isDisplayed()))
                 .check(matches(withText("Hi TestTeacher")));
 
+        // 🔓 LOGOUT après le test réussi pour préparer le test suivant
+        performLogout();
     }
 
+    /**
+     * Méthode utilitaire pour effectuer la déconnexion
+     * Assure un état propre entre les tests
+     */
+    private void performLogout() {
+        try {
+            // Option 1: Déconnexion via Firebase Auth (programmativement)
+            FirebaseAuth.getInstance().signOut();
+            SystemClock.sleep(2000);
 
+            // Option 2: Si votre app a un bouton de logout dans l'UI, vous pouvez l'utiliser
+            // Par exemple, si vous avez un menu ou un bouton de déconnexion :
+            /*
+            try {
+                // Ouvrir le menu/profil
+                onView(withId(R.id.btnProfile)) // ou l'ID de votre bouton profil
+                        .perform(click());
 
+                SystemClock.sleep(1000);
+
+                // Cliquer sur logout
+                onView(withId(R.id.btnLogout)) // ou l'ID de votre bouton logout
+                        .perform(click());
+
+                SystemClock.sleep(2000);
+            } catch (Exception e) {
+                // Si l'UI logout échoue, utiliser Firebase Auth
+                FirebaseAuth.getInstance().signOut();
+            }
+            */
+
+            // Fermer l'activité actuelle et redémarrer AuthActivity
+            if (scenario != null) {
+                scenario.close();
+            }
+
+            // Relancer AuthActivity pour le test suivant
+            Intent intent = new Intent(
+                    ApplicationProvider.getApplicationContext(),
+                    AuthActivity.class
+            );
+            intent.putExtra("LOGOUT", true);
+            scenario = ActivityScenario.launch(intent);
+
+            SystemClock.sleep(2000);
+
+        } catch (Exception e) {
+            // En cas d'erreur, assurer au minimum la déconnexion Firebase
+            FirebaseAuth.getInstance().signOut();
+            SystemClock.sleep(1000);
+        }
+    }
 
     @After
     public void tearDown() {
