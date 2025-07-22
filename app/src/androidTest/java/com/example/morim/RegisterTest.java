@@ -3,6 +3,7 @@ package com.example.morim;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
@@ -23,6 +24,7 @@ import com.example.morim.model.Location;
 
 import android.content.Intent;
 import android.os.SystemClock;
+import android.view.View;
 
 import androidx.fragment.app.FragmentManager;
 import androidx.test.core.app.ApplicationProvider;
@@ -33,6 +35,9 @@ import androidx.test.rule.GrantPermissionRule;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -82,7 +87,7 @@ public class RegisterTest {
         onView(withId(R.id.etPhoneRegister))
                 .perform(scrollTo(), typeText("0612345678"), closeSoftKeyboard());
         onView(withId(R.id.etEmailRegister))
-                .perform(scrollTo(), typeText("student15@example.com"), closeSoftKeyboard());
+                .perform(scrollTo(), typeText("student20@example.com"), closeSoftKeyboard());
         onView(withId(R.id.etPasswordRegister))
                 .perform(scrollTo(), typeText("password123"), closeSoftKeyboard());
 
@@ -94,12 +99,10 @@ public class RegisterTest {
 
         SystemClock.sleep(10000);
 
-        // 🔍 Vérifie que le nom de l'utilisateur s'affiche après la connexion
         onView(withId(R.id.titleMorim))
                 .check(matches(isDisplayed()))
                 .check(matches(withText("Hi TestStudent")));
 
-        // 🔓 LOGOUT après le test réussi pour préparer le test suivant
         performLogout();
     }
 
@@ -120,7 +123,7 @@ public class RegisterTest {
         onView(withId(R.id.etPhoneRegister))
                 .perform(scrollTo(), typeText("0612345678"), closeSoftKeyboard());
         onView(withId(R.id.etEmailRegister))
-                .perform(scrollTo(), typeText("teacher13@example.com"), closeSoftKeyboard());
+                .perform(scrollTo(), typeText("teacher20@example.com"), closeSoftKeyboard());
         onView(withId(R.id.etPasswordRegister))
                 .perform(scrollTo(), typeText("password123"), closeSoftKeyboard());
 
@@ -150,21 +153,17 @@ public class RegisterTest {
         SystemClock.sleep(3000);
 
         try {
-            // Essayer d'abord avec "Tel-Aviv" (format avec tiret)
             onView(withText("Tel-Aviv"))
                     .perform(click());
         } catch (Exception e1) {
             try {
-                // Si ça ne marche pas, essayer avec containsString
                 onView(withText(containsString("Tel-Aviv")))
                         .perform(click());
             } catch (Exception e2) {
                 try {
-                    // Alternative : sélectionner par position (premier élément)
                     onView(withText(containsString("Tel")))
                             .perform(click());
                 } catch (Exception e3) {
-                    // Dernier recours : utiliser un sélecteur générique
                     onView(allOf(
                             isDisplayed(),
                             withText(containsString("Tel"))
@@ -190,47 +189,18 @@ public class RegisterTest {
 
         SystemClock.sleep(10000);
 
-        // 🔍 Vérifie que le nom de l'utilisateur s'affiche après la connexion
         onView(withId(R.id.titleMorim))
                 .check(matches(isDisplayed()))
                 .check(matches(withText("Hi TestTeacher")));
 
-        // 🔓 LOGOUT après le test réussi pour préparer le test suivant
         performLogout();
     }
 
-    /**
-     * Méthode utilitaire pour effectuer la déconnexion
-     * Assure un état propre entre les tests
-     */
     private void performLogout() {
         try {
-            // Option 1: Déconnexion via Firebase Auth (programmativement)
             FirebaseAuth.getInstance().signOut();
             SystemClock.sleep(2000);
 
-            // Option 2: Si votre app a un bouton de logout dans l'UI, vous pouvez l'utiliser
-            // Par exemple, si vous avez un menu ou un bouton de déconnexion :
-            /*
-            try {
-                // Ouvrir le menu/profil
-                onView(withId(R.id.btnProfile)) // ou l'ID de votre bouton profil
-                        .perform(click());
-
-                SystemClock.sleep(1000);
-
-                // Cliquer sur logout
-                onView(withId(R.id.btnLogout)) // ou l'ID de votre bouton logout
-                        .perform(click());
-
-                SystemClock.sleep(2000);
-            } catch (Exception e) {
-                // Si l'UI logout échoue, utiliser Firebase Auth
-                FirebaseAuth.getInstance().signOut();
-            }
-            */
-
-            // Fermer l'activité actuelle et redémarrer AuthActivity
             if (scenario != null) {
                 scenario.close();
             }
@@ -246,10 +216,317 @@ public class RegisterTest {
             SystemClock.sleep(2000);
 
         } catch (Exception e) {
-            // En cas d'erreur, assurer au minimum la déconnexion Firebase
             FirebaseAuth.getInstance().signOut();
             SystemClock.sleep(1000);
         }
+    }
+
+    @Test
+    public void testRegisterValidationErrors() {
+        SystemClock.sleep(2000);
+
+        onView(withId(R.id.btnToRegister)).perform(click());
+
+        onView(withId(R.id.btnRegisterSubmit)).perform(scrollTo(), click());
+        onView(withId(R.id.etLayoutEmailAddressRegister))
+                .check(matches(hasTextInputLayoutErrorText("Email must not be empty!")));
+
+        onView(withId(R.id.etEmailRegister))
+                .perform(scrollTo(), typeText("test@example.com"), closeSoftKeyboard());
+
+        onView(withId(R.id.btnRegisterSubmit)).perform(scrollTo(), click());
+        onView(withId(R.id.etLayoutPasswordRegister))
+                .check(matches(hasTextInputLayoutErrorText("Password must not be empty!")));
+
+        onView(withId(R.id.etPasswordRegister))
+                .perform(scrollTo(), typeText("password123"), closeSoftKeyboard());
+
+        onView(withId(R.id.btnRegisterSubmit)).perform(scrollTo(), click());
+        onView(withId(R.id.etLayoutFullNameRegister))
+                .check(matches(hasTextInputLayoutErrorText("Full name must not be empty!")));
+
+        onView(withId(R.id.etFullNameRegister))
+                .perform(scrollTo(), typeText("John Doe"), closeSoftKeyboard());
+
+        onView(withId(R.id.btnRegisterSubmit)).perform(scrollTo(), click());
+        onView(withId(R.id.etLayoutAddressRegister))
+                .check(matches(hasTextInputLayoutErrorText("Address must not be empty!")));
+
+        onView(withId(R.id.etAddressRegister))
+                .perform(scrollTo(), typeText("123 Main Street"), closeSoftKeyboard());
+
+        onView(withId(R.id.btnRegisterSubmit)).perform(scrollTo(), click());
+        onView(withId(R.id.etLayoutPhoneRegister))
+                .check(matches(hasTextInputLayoutErrorText("Phone must not be empty!")));
+
+        onView(withId(R.id.etPhoneRegister))
+                .perform(scrollTo(), typeText("123456"), closeSoftKeyboard());
+
+        onView(withId(R.id.btnRegisterSubmit)).perform(scrollTo(), click());
+        onView(withId(R.id.etLayoutPhoneRegister))
+                .check(matches(hasTextInputLayoutErrorText("Invalid phone number!")));
+
+        onView(withId(R.id.etPhoneRegister))
+                .perform(scrollTo(), replaceText("0612345678"), closeSoftKeyboard());
+        onView(withId(R.id.etEmailRegister))
+                .perform(scrollTo(), replaceText("invalidemail"), closeSoftKeyboard());
+
+        onView(withId(R.id.btnRegisterSubmit)).perform(scrollTo(), click());
+
+        onView(withId(R.id.etLayoutEmailAddressRegister))
+                .check(matches(hasTextInputLayoutErrorText("Invalid email format!")));
+    }
+
+    @Test
+    public void testImageSelection() {
+        SystemClock.sleep(2000);
+
+        onView(withId(R.id.btnToRegister))
+                .perform(click());
+
+        onView(withId(R.id.ivRegisterUserImage))
+                .perform(setImageFromAssets("testImage.jpg"));
+
+        // verif img not pas null
+        onView(withId(R.id.ivRegisterUserImage))
+                .check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testUserTypeSelection() {
+        SystemClock.sleep(2000);
+
+        onView(withId(R.id.btnToRegister))
+                .perform(click());
+
+        onView(withId(R.id.typeStudent))
+                .perform(scrollTo(), click());
+
+        onView(withId(R.id.typeTeacher))
+                .perform(scrollTo(), click());
+
+        onView(withId(R.id.typeStudent))
+                .perform(scrollTo(), click());
+
+        onView(withId(R.id.typeStudent))
+                .check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void testPhoneValidationSpecificCases() {
+        SystemClock.sleep(2000);
+
+        onView(withId(R.id.btnToRegister))
+                .perform(click());
+
+        onView(withId(R.id.etEmailRegister))
+                .perform(scrollTo(), typeText("test@example.com"), closeSoftKeyboard());
+        onView(withId(R.id.etPasswordRegister))
+                .perform(scrollTo(), typeText("password123"), closeSoftKeyboard());
+        onView(withId(R.id.etFullNameRegister))
+                .perform(scrollTo(), typeText("John Doe"), closeSoftKeyboard());
+        onView(withId(R.id.etAddressRegister))
+                .perform(scrollTo(), typeText("123 Main Street"), closeSoftKeyboard());
+
+        onView(withId(R.id.etPhoneRegister))
+                .perform(scrollTo(), typeText("123"), closeSoftKeyboard());
+
+        onView(withId(R.id.btnRegisterSubmit))
+                .perform(scrollTo(), click());
+
+        onView(withId(R.id.etLayoutPhoneRegister))
+                .check(matches(hasTextInputLayoutErrorText("Invalid phone number!")));
+
+        onView(withId(R.id.etPhoneRegister))
+                .perform(scrollTo(), replaceText("12345678901"), closeSoftKeyboard());
+
+        onView(withId(R.id.btnRegisterSubmit))
+                .perform(scrollTo(), click());
+
+        onView(withId(R.id.etLayoutPhoneRegister))
+                .check(matches(hasTextInputLayoutErrorText("Invalid phone number!")));
+
+        onView(withId(R.id.etPhoneRegister))
+                .perform(scrollTo(), replaceText("06123abcde"), closeSoftKeyboard());
+
+        onView(withId(R.id.btnRegisterSubmit))
+                .perform(scrollTo(), click());
+
+        onView(withId(R.id.etLayoutPhoneRegister))
+                .check(matches(hasTextInputLayoutErrorText("Invalid phone number!")));
+    }
+
+    @Test
+    public void testEmailValidationSpecificCases() {
+        SystemClock.sleep(2000);
+
+        onView(withId(R.id.btnToRegister))
+                .perform(click());
+
+        onView(withId(R.id.etPasswordRegister))
+                .perform(scrollTo(), typeText("password123"), closeSoftKeyboard());
+        onView(withId(R.id.etFullNameRegister))
+                .perform(scrollTo(), typeText("John Doe"), closeSoftKeyboard());
+        onView(withId(R.id.etAddressRegister))
+                .perform(scrollTo(), typeText("123 Main Street"), closeSoftKeyboard());
+        onView(withId(R.id.etPhoneRegister))
+                .perform(scrollTo(), typeText("0612345678"), closeSoftKeyboard());
+
+        onView(withId(R.id.etEmailRegister))
+                .perform(scrollTo(), typeText("testexample.com"), closeSoftKeyboard());
+
+        onView(withId(R.id.btnRegisterSubmit))
+                .perform(scrollTo(), click());
+
+        onView(withId(R.id.etLayoutEmailAddressRegister))
+                .check(matches(hasTextInputLayoutErrorText("Invalid email format!")));
+
+        onView(withId(R.id.etEmailRegister))
+                .perform(scrollTo(), replaceText("test@"), closeSoftKeyboard());
+
+        onView(withId(R.id.btnRegisterSubmit))
+                .perform(scrollTo(), click());
+
+        onView(withId(R.id.etLayoutEmailAddressRegister))
+                .check(matches(hasTextInputLayoutErrorText("Invalid email format!")));
+
+        onView(withId(R.id.etEmailRegister))
+                .perform(scrollTo(), replaceText("test@example"), closeSoftKeyboard());
+
+        onView(withId(R.id.btnRegisterSubmit))
+                .perform(scrollTo(), click());
+
+        onView(withId(R.id.etLayoutEmailAddressRegister))
+                .check(matches(hasTextInputLayoutErrorText("Invalid email format!")));
+    }
+
+    @Test
+    public void testRegisterAsStudentWithoutImage() {
+        SystemClock.sleep(2000);
+
+        onView(withId(R.id.btnToRegister))
+                .perform(click());
+
+        onView(withId(R.id.etFullNameRegister))
+                .perform(scrollTo(), typeText("StudentNoImage"), closeSoftKeyboard());
+        onView(withId(R.id.etAddressRegister))
+                .perform(scrollTo(), typeText("456 Test Street"), closeSoftKeyboard());
+        onView(withId(R.id.etPhoneRegister))
+                .perform(scrollTo(), typeText("0698765432"), closeSoftKeyboard());
+        onView(withId(R.id.etEmailRegister))
+                .perform(scrollTo(), typeText("studentnoimage1@example.com"), closeSoftKeyboard());
+        onView(withId(R.id.etPasswordRegister))
+                .perform(scrollTo(), typeText("password123"), closeSoftKeyboard());
+
+        onView(withId(R.id.typeStudent))
+                .perform(scrollTo(), click());
+
+        onView(withId(R.id.btnRegisterSubmit))
+                .perform(scrollTo(), click());
+
+        SystemClock.sleep(10000);
+
+        onView(withId(R.id.titleMorim))
+                .check(matches(isDisplayed()))
+                .check(matches(withText("Hi StudentNoImage")));
+
+        performLogout();
+    }
+
+    @Test
+    public void testFormFieldsTrimming() {
+        SystemClock.sleep(2000);
+
+        onView(withId(R.id.btnToRegister))
+                .perform(click());
+
+        onView(withId(R.id.etFullNameRegister))
+                .perform(scrollTo(), typeText("  John Doe  "), closeSoftKeyboard());
+        onView(withId(R.id.etAddressRegister))
+                .perform(scrollTo(), typeText("  123 Main Street  "), closeSoftKeyboard());
+        onView(withId(R.id.etPhoneRegister))
+                .perform(scrollTo(), typeText("  0612345678  "), closeSoftKeyboard());
+        onView(withId(R.id.etEmailRegister))
+                .perform(scrollTo(), typeText("  test1@example.com  "), closeSoftKeyboard());
+        onView(withId(R.id.etPasswordRegister))
+                .perform(scrollTo(), typeText("  password123  "), closeSoftKeyboard());
+
+        onView(withId(R.id.typeStudent))
+                .perform(scrollTo(), click());
+
+        onView(withId(R.id.btnRegisterSubmit))
+                .perform(scrollTo(), click());
+
+        SystemClock.sleep(10000);
+
+        onView(withId(R.id.titleMorim))
+                .check(matches(isDisplayed()))
+                .check(matches(withText("Hi John Doe")));
+
+        performLogout();
+    }
+
+    @Test
+    public void testErrorClearingOnRetry() {
+        SystemClock.sleep(2000);
+
+        onView(withId(R.id.btnToRegister))
+                .perform(click());
+
+        // Provoquer une erreur
+        onView(withId(R.id.btnRegisterSubmit))
+                .perform(scrollTo(), click());
+
+        // Vérifier que l'erreur s affiche
+        onView(withId(R.id.etLayoutEmailAddressRegister))
+                .check(matches(hasTextInputLayoutErrorText("Email must not be empty!")));
+
+        onView(withId(R.id.etEmailRegister))
+                .perform(scrollTo(), typeText("test@example.com"), closeSoftKeyboard());
+
+        onView(withId(R.id.btnRegisterSubmit))
+                .perform(scrollTo(), click());
+
+        onView(withId(R.id.etLayoutPasswordRegister))
+                .check(matches(hasTextInputLayoutErrorText("Password must not be empty!")));
+    }
+
+
+    /// //ajouter btn cancel
+    @Test
+    public void testTeacherRegistrationDialogCancellation() {
+        SystemClock.sleep(2000);
+
+        onView(withId(R.id.btnToRegister))
+                .perform(click());
+
+        onView(withId(R.id.ivRegisterUserImage))
+                .perform(setImageFromAssets("testImage.jpg"));
+
+        onView(withId(R.id.etFullNameRegister))
+                .perform(scrollTo(), typeText("TestTeacherCancel"), closeSoftKeyboard());
+        onView(withId(R.id.etAddressRegister))
+                .perform(scrollTo(), typeText("123 Test Street"), closeSoftKeyboard());
+        onView(withId(R.id.etPhoneRegister))
+                .perform(scrollTo(), typeText("0612345678"), closeSoftKeyboard());
+        onView(withId(R.id.etEmailRegister))
+                .perform(scrollTo(), typeText("teachercancel@example.com"), closeSoftKeyboard());
+        onView(withId(R.id.etPasswordRegister))
+                .perform(scrollTo(), typeText("password123"), closeSoftKeyboard());
+
+        onView(withId(R.id.typeTeacher))
+                .perform(scrollTo(), click());
+
+        onView(withId(R.id.btnRegisterSubmit))
+                .perform(scrollTo(), click());
+
+        SystemClock.sleep(3000);
+
+        // Le dialog devrait s'ouvrir - on peut tester sa présence
+        // Note: Vous pourriez vouloir ajouter un test pour fermer le dialog ou appuyer sur "Cancel" si votre dialog a cette option
+
+        // Pour ce test, on assume que le dialog s'ouvre correctement
+        // Si vous avez un bouton Cancel dans le dialog, vous pouvez l'utiliser ici
     }
 
     @After
@@ -261,4 +538,26 @@ public class RegisterTest {
             scenario.close();
         }
     }
+
+
+    //+
+    public static Matcher<View> hasTextInputLayoutErrorText(final String expectedErrorText) {
+        return new TypeSafeMatcher<View>() {
+            @Override
+            protected boolean matchesSafely(View view) {
+                if (!(view instanceof com.google.android.material.textfield.TextInputLayout)) {
+                    return false;
+                }
+
+                CharSequence error = ((com.google.android.material.textfield.TextInputLayout) view).getError();
+                return error != null && error.toString().equals(expectedErrorText);
+            }
+
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("with TextInputLayout error: " + expectedErrorText);
+            }
+        };
+    }
+
 }

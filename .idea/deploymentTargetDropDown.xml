@@ -2,13 +2,7 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="AuthActivityUIIntegrationTest">
-        <State />
-      </entry>
       <entry key="RegisterTest">
-        <State />
-      </entry>
-      <entry key="ScheduleMeetingTest">
         <State />
       </entry>
       <entry key="app">
@@ -27,10 +21,16 @@
           <timeTargetWasSelectedWithDropDown value="2025-05-25T19:52:15.731896300Z" />
         </State>
       </entry>
-      <entry key="testRegisterAsStudent_withTestImage()">
+      <entry key="hasTextInputLayoutErrorText()">
         <State />
       </entry>
-      <entry key="testRegisterAsTeacher_withTestImage()">
+      <entry key="testNavigationBackToSignIn()">
+        <State />
+      </entry>
+      <entry key="testRegisterValidationErrors()">
+        <State />
+      </entry>
+      <entry key="testTeacherRegistrationDialogCancellation()">
         <State />
       </entry>
     </value>
