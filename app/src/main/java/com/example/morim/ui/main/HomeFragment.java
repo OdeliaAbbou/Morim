@@ -116,11 +116,15 @@ public class HomeFragment extends BaseFragment implements TeacherAdapter.Teacher
         mainViewModel.getCurrentUserOnce(new OnDataCallback<User>() {
             @Override
             public void onData(User user) {
+
+                if (user != null) {
+                    viewBinding.titleMorim.setText("Hi " + user.getFullName());
+                }
                 if (adapter != null && user instanceof Student) {
                     adapter.updateCurrentUser((Student) user);
                     stud = (Student) user;
                     //CHANGEMENT
-                    viewBinding.titleMorim.setText("Hi " + user.getFullName());
+                 //   viewBinding.titleMorim.setText("Hi " + user.getFullName());
 
                 } else {
                     Log.d("HomeFragment", "onChanged: User is not student");

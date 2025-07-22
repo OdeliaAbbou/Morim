@@ -82,7 +82,7 @@ public class RegisterTest {
         onView(withId(R.id.etPhoneRegister))
                 .perform(scrollTo(), typeText("0612345678"), closeSoftKeyboard());
         onView(withId(R.id.etEmailRegister))
-                .perform(scrollTo(), typeText("student9@example.com"), closeSoftKeyboard());
+                .perform(scrollTo(), typeText("student14@example.com"), closeSoftKeyboard());
         onView(withId(R.id.etPasswordRegister))
                 .perform(scrollTo(), typeText("password123"), closeSoftKeyboard());
 
@@ -119,7 +119,7 @@ public class RegisterTest {
         onView(withId(R.id.etPhoneRegister))
                 .perform(scrollTo(), typeText("0612345678"), closeSoftKeyboard());
         onView(withId(R.id.etEmailRegister))
-                .perform(scrollTo(), typeText("teacher2@example.com"), closeSoftKeyboard());
+                .perform(scrollTo(), typeText("teacher12@example.com"), closeSoftKeyboard());
         onView(withId(R.id.etPasswordRegister))
                 .perform(scrollTo(), typeText("password123"), closeSoftKeyboard());
 
@@ -172,10 +172,6 @@ public class RegisterTest {
             }
             SystemClock.sleep(5000);
 
-            // 🔍 Vérifie que le nom de l'utilisateur s'affiche après la connexion
-            onView(withId(R.id.titleMorim))
-                    .check(matches(isDisplayed()))
-                    .check(matches(withText("Hi TestTeacher")));
 
         }
 
@@ -196,8 +192,12 @@ public class RegisterTest {
                 .perform(click());
 
 
-        SystemClock.sleep(5000);
+        SystemClock.sleep(10000);
 
+        // 🔍 Vérifie que le nom de l'utilisateur s'affiche après la connexion
+        onView(withId(R.id.titleMorim))
+                .check(matches(isDisplayed()))
+                .check(matches(withText("Hi TestTeacher")));
 
     }
 
