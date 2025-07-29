@@ -146,6 +146,9 @@ public class TeacherAdapter extends RecyclerView.Adapter<TeacherAdapter.TeacherV
             this.binding = binding;
         }
 
+
+
+
         @SuppressLint("DefaultLocale")
         public void bind(
                 Student current,
