@@ -2,12 +2,6 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="AuthActivityUIIntegrationTest">
-        <State />
-      </entry>
-      <entry key="RegisterTest">
-        <State />
-      </entry>
       <entry key="app">
         <State>
           <targetSelectedWithDropDown>
@@ -30,7 +24,13 @@
       <entry key="testInvalidLogin_userRemainsOnAuthActivity()">
         <State />
       </entry>
-      <entry key="testNavigateToRegister_clickWorks()">
+      <entry key="testRegisterAsStudent_withTestImage()">
+        <State />
+      </entry>
+      <entry key="testRegisterAsTeacher_withTestImage()">
+        <State />
+      </entry>
+      <entry key="testTeacherRegistrationDialogCancellation()">
         <State />
       </entry>
     </value>

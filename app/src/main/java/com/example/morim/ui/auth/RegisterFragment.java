@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -296,9 +297,15 @@ public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceStat
                 // Création du dialog pour les détails du professeur
                 if (teacherDetailsDialog == null) {
                     teacherDetailsDialog = new TeacherDetailsDialog((teachingSubjects, teachingAreas, teachingLocation, education, price) -> {
+                        Log.d("REGISTER_DEBUG", "selectedImage avant création form: " + (selectedImage != null ? selectedImage.toString() : "NULL"));
+
                         UserRegisterForm form = new TeacherRegisterForm(new UserRegisterForm(
                                 email, password, fullName, address, phone, selectedImage
                         ), teachingSubjects, teachingAreas, teachingLocation, education, price);
+
+                        Log.d("REGISTER_DEBUG", "Image dans le form: " + (form.getImage() != null ? form.getImage().toString() : "NULL"));
+
+
                         authViewModel.createUser(form, new OnDataCallback<User>() {
                             @Override
                             public void onData(User value) {
@@ -393,6 +400,8 @@ public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceStat
             if (requireActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
                 ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 101);
             }
+
+
         }
     }
 

@@ -43,6 +43,9 @@ public class FirebaseUserManager {
     public final String USERS_COLLECTION = "users";
     private final FirebaseUtil firebaseUtil;
 
+    public static final String DEFAULT_IMAGE = "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/660px-No-Image-Placeholder.svg.png?20200912122019";
+
+
     public FirebaseUserManager(FirebaseUtil firebaseUtil, SharedPreferences sharedPreferences) {
         this.firebaseUtil = firebaseUtil;
         this.sp = sharedPreferences;
@@ -138,7 +141,10 @@ public class FirebaseUserManager {
                     if (form instanceof TeacherRegisterForm) {
                         TeacherRegisterForm teacherForm = (TeacherRegisterForm) form;
                         user = new Teacher(
-                                id, teacherForm.getEmail(), teacherForm.getFullName(),  form.getPhone(),teacherForm.getAddress(), "",
+                                id, teacherForm.getEmail(),
+                                teacherForm.getFullName(),
+                                form.getPhone(),teacherForm.getAddress(),
+                                "",
                                 teacherForm.getTeachingSubjects(),
                                 teacherForm.getTeachingArea(),
                                 teacherForm.getEducation(),
@@ -178,6 +184,8 @@ public class FirebaseUserManager {
                                 .addOnSuccessListener(unused -> callback.onData(teacher))
                                 .addOnFailureListener(callback::onException);
                     } else {
+
+
                         Student student = (Student) user;
                         firebaseUtil.updateDoc(USERS_COLLECTION, id, student)
                                 .addOnSuccessListener(unused -> callback.onData(student))
@@ -191,6 +199,7 @@ public class FirebaseUserManager {
                 }
             });
         } else {
+
             if (user.isTeacher()) {
                 Teacher teacher = (Teacher) user;
                 firebaseUtil.updateDoc(USERS_COLLECTION, id, teacher)

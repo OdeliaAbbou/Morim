@@ -30,11 +30,11 @@ public class User extends BaseDocument{
         this.image = image;
     }
 
-    public String getImage() {
-        if(image == null || image.isEmpty())
-            return DEFAULT_IMAGE;
-        return image;
-    }
+public String getImage() {
+    if(image == null || image.isEmpty())
+        return DEFAULT_IMAGE;
+    return image;
+}
 
     public void setImage(String image) {
         this.image = image;

@@ -13,7 +13,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static com.example.morim.CustomViewActions.setImageFromAssets;
-import static com.example.morim.CustomViewActions.setTextInTextView;
 
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.core.StringContains.containsString;
@@ -24,6 +23,7 @@ import com.example.morim.model.Location;
 
 import android.content.Intent;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.View;
 
 import androidx.fragment.app.FragmentManager;
@@ -44,8 +44,10 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import com.example.morim.ui.dialog.TeacherDetailsDialog;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.lang.reflect.Field;
+import java.util.concurrent.CountDownLatch;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
@@ -77,17 +79,17 @@ public class RegisterTest {
         onView(withId(R.id.btnToRegister))
                 .perform(click());
 
-        onView(withId(R.id.ivRegisterUserImage))
-                .perform(setImageFromAssets("testImage.jpg"));
+//        onView(withId(R.id.ivRegisterUserImage))
+//                .perform(setImageFromAssets("testImage.jpg"));
 
         onView(withId(R.id.etFullNameRegister))
-                .perform(scrollTo(), typeText("TestStudent"), closeSoftKeyboard());
+                .perform(scrollTo(), typeText("TestStudent555555555555"), closeSoftKeyboard());
         onView(withId(R.id.etAddressRegister))
                 .perform(scrollTo(), typeText("123 Rue Exemple"), closeSoftKeyboard());
         onView(withId(R.id.etPhoneRegister))
                 .perform(scrollTo(), typeText("0612345678"), closeSoftKeyboard());
         onView(withId(R.id.etEmailRegister))
-                .perform(scrollTo(), typeText("student20@example.com"), closeSoftKeyboard());
+                .perform(scrollTo(), typeText("student21@example.com"), closeSoftKeyboard());
         onView(withId(R.id.etPasswordRegister))
                 .perform(scrollTo(), typeText("password123"), closeSoftKeyboard());
 
@@ -99,9 +101,12 @@ public class RegisterTest {
 
         SystemClock.sleep(10000);
 
+        updateUserImageUrlInFirebase("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTM7wiGvv8RAkW5iV0CpLaqOM2pnpCINJa4aQ&s");
+        SystemClock.sleep(2000);
+
         onView(withId(R.id.titleMorim))
                 .check(matches(isDisplayed()))
-                .check(matches(withText("Hi TestStudent")));
+                .check(matches(withText("Hi TestStudent555555555555")));
 
         performLogout();
     }
@@ -113,17 +118,18 @@ public class RegisterTest {
         onView(withId(R.id.btnToRegister))
                 .perform(click());
 
-        onView(withId(R.id.ivRegisterUserImage))
-                .perform(setImageFromAssets("testImage.jpg"));
+//        onView(withId(R.id.ivRegisterUserImage))
+//                .perform(setImageFromAssets("testImage.jpg"));
+
 
         onView(withId(R.id.etFullNameRegister))
-                .perform(scrollTo(), typeText("TestTeacher"), closeSoftKeyboard());
+                .perform(scrollTo(), typeText("teacherImg"), closeSoftKeyboard());
         onView(withId(R.id.etAddressRegister))
                 .perform(scrollTo(), typeText("123 Rue Exemple"), closeSoftKeyboard());
         onView(withId(R.id.etPhoneRegister))
                 .perform(scrollTo(), typeText("0612345678"), closeSoftKeyboard());
         onView(withId(R.id.etEmailRegister))
-                .perform(scrollTo(), typeText("teacher20@example.com"), closeSoftKeyboard());
+                .perform(scrollTo(), typeText("teacher1@example.com"), closeSoftKeyboard());
         onView(withId(R.id.etPasswordRegister))
                 .perform(scrollTo(), typeText("password123"), closeSoftKeyboard());
 
@@ -178,7 +184,7 @@ public class RegisterTest {
                 .perform(typeText("Master in Math"));
 
         onView(withId(R.id.etPrice))
-                .perform(typeText("150"));
+                .perform(typeText("300"));
 
         closeSoftKeyboard();
 
@@ -189,9 +195,13 @@ public class RegisterTest {
 
         SystemClock.sleep(10000);
 
+        updateUserImageUrlInFirebase("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTM7wiGvv8RAkW5iV0CpLaqOM2pnpCINJa4aQ&s");
+        SystemClock.sleep(2000);
+
+
         onView(withId(R.id.titleMorim))
                 .check(matches(isDisplayed()))
-                .check(matches(withText("Hi TestTeacher")));
+                .check(matches(withText("Hi teacherImg")));
 
         performLogout();
     }
@@ -492,7 +502,6 @@ public class RegisterTest {
     }
 
 
-    /// //ajouter btn cancel
     @Test
     public void testTeacherRegistrationDialogCancellation() {
         SystemClock.sleep(2000);
@@ -522,11 +531,22 @@ public class RegisterTest {
 
         SystemClock.sleep(3000);
 
-        // Le dialog devrait s'ouvrir - on peut tester sa présence
-        // Note: Vous pourriez vouloir ajouter un test pour fermer le dialog ou appuyer sur "Cancel" si votre dialog a cette option
+        onView(withId(R.id.btnDismissDialog))
+                .check(matches(isDisplayed()))
+                .perform(click());
 
-        // Pour ce test, on assume que le dialog s'ouvre correctement
-        // Si vous avez un bouton Cancel dans le dialog, vous pouvez l'utiliser ici
+        SystemClock.sleep(3000);
+
+        onView(withId(R.id.btnBackToSignIn))
+                .perform(scrollTo(), click());
+
+        SystemClock.sleep(3000);
+        onView(withId(R.id.btnToRegister))
+                .check(matches(isDisplayed()));
+        SystemClock.sleep(3000);
+
+
+
     }
 
     @After
@@ -540,7 +560,6 @@ public class RegisterTest {
     }
 
 
-    //+
     public static Matcher<View> hasTextInputLayoutErrorText(final String expectedErrorText) {
         return new TypeSafeMatcher<View>() {
             @Override
@@ -559,5 +578,24 @@ public class RegisterTest {
             }
         };
     }
+
+
+    private void updateUserImageUrlInFirebase(String imageUrl) {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(userId)
+                .update("image", imageUrl)
+                .addOnSuccessListener(aVoid -> {
+                    Log.d("TEST_IMAGE_UPDATE", "Image URL successfully updated to: " + imageUrl);
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("TEST_IMAGE_UPDATE", "Failed to update image URL", e);
+                    throw new RuntimeException("Failed to update image URL in Firebase", e);
+                });
+    }
+
+
 
 }

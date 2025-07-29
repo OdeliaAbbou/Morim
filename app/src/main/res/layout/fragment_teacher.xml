@@ -42,154 +42,151 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <LinearLayout
+    <!-- Contenu principal -->
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
-        android:padding="16dp"
         app:layout_constraintTop_toBottomOf="@id/sep"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/ivTeacherItem"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:layout_marginVertical="8dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/profile_ic"
-            app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Full" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="8dp"
-            android:weightSum="1">
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.7"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvTeacherItemName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp"
-                    android:text="Name name"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.3"
-                android:orientation="vertical"
-                android:gravity="end">
-
-                <TextView
-                    android:id="@+id/tvPrice"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="4dp"
-                    android:text="@string/hourly_fee_150"
-                    android:textColor="#3F51B5"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="8dp"
-            android:translationY="-8dp">
+            android:padding="16dp">
+
+            <!-- Photo et infos principales -->
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivTeacherItem"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:layout_marginVertical="8dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/profile_ic"
+                app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Full" />
 
             <TextView
-                android:id="@+id/tvTeacherItemSubjects"
-                android:layout_width="match_parent"
+                android:id="@+id/tvTeacherItemName"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:text="Teaching Subjects" />
-
-            <TextView
-                android:id="@+id/tvTeacherItemEducation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Education" />
+                android:layout_gravity="center"
+                android:text="Name name"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:layout_marginTop="8dp"/>
 
             <RatingBar
                 android:id="@+id/rbTeacherItem"
                 style="@style/Widget.AppCompat.RatingBar.Indicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:isIndicator="true"
                 android:numStars="5"
                 android:rating="3"
-                android:scaleX="0.65"
-                android:scaleY="0.65"
-                android:stepSize="1.0" />
-        </LinearLayout>
+                android:scaleX="0.8"
+                android:scaleY="0.8"
+                android:stepSize="1.0"
+                android:layout_marginTop="4dp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:orientation="horizontal"
-            android:layoutDirection="rtl"
-            android:paddingHorizontal="8dp"
-            android:layout_marginTop="8dp">
-
-            <ImageButton
-                android:id="@+id/btnFavorite"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="8dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="favorite_button_description"
-                android:src="@drawable/ic_favorite"
-                app:tint="@color/black" />
-
-            <ImageButton
-                android:id="@+id/btnCommentsList"
-                android:layout_width="33dp"
-                android:layout_height="34dp"
-                android:layout_marginStart="8dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="comment_button_description"
-                android:scaleType="centerInside"
-                android:src="@drawable/star" />
-
-            <ImageButton
-                android:id="@+id/btnChat"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_marginStart="8dp"
-                android:src="@drawable/chat"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="@string/chat_button_description"
-                app:tint="@color/black" />
-
-            <Button
-                android:id="@+id/btnSchedule"
-                android:layout_width="165dp"
+            <!-- Prix -->
+            <TextView
+                android:id="@+id/tvPrice"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/black"
-                android:drawableEnd="@drawable/baseline_calendar_month_24"
-                android:minWidth="250dp"
-                android:paddingHorizontal="20dp"
-                android:text="Schedule with Name Name"
-                android:textAlignment="viewStart"
-                android:textColor="@android:color/white"
+                android:layout_gravity="center"
+                android:layout_marginTop="6dp"
+                android:text="@string/hourly_fee_150"
+                android:textColor="#3F51B5"
+                android:textStyle="bold" />
+
+            <!-- Section Teaching Subjects -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Teaching Subjects"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginTop="16dp"/>
+
+            <TextView
+                android:id="@+id/tvTeacherItemSubjects"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Subjects list here"
                 android:textSize="14sp"
-                app:iconPadding="4dp"
-                app:iconSize="20sp" />
+                android:layout_marginTop="4dp"/>
+
+            <!-- Section Education -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Education"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginTop="12dp"/>
+
+            <TextView
+                android:id="@+id/tvTeacherItemEducation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Education details here"
+                android:textSize="14sp"
+                android:layout_marginTop="4dp"/>
+
+            <!-- Boutons -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:orientation="horizontal"
+                android:layoutDirection="rtl"
+                android:paddingHorizontal="8dp"
+                android:layout_marginTop="12dp">
+
+                <ImageButton
+                    android:id="@+id/btnFavorite"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_favorite"
+                    app:tint="@color/black" />
+
+                <ImageButton
+                    android:id="@+id/btnCommentsList"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="8dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/star" />
+
+                <ImageButton
+                    android:id="@+id/btnChat"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="8dp"
+                    android:src="@drawable/chat"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:tint="@color/black" />
+
+                <Button
+                    android:id="@+id/btnSchedule"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/black"
+                    android:drawableEnd="@drawable/baseline_calendar_month_24"
+                    android:paddingHorizontal="20dp"
+                    android:text="Schedule"
+                    android:textAlignment="viewStart"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

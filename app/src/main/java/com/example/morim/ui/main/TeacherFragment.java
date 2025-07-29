@@ -63,7 +63,26 @@ public class TeacherFragment extends BaseFragment implements TeacherAdapter.Sche
             binding.tvTeacherItemName.setText(t.getFullName());
             binding.btnSchedule.setText(String.format("Schedule with %s", t.getFullName()));
             binding.rbTeacherItem.setRating((float) t.getAverageRating());
+////////////////////////////
+            if (t.getTeachingSubjects() != null && !t.getTeachingSubjects().isEmpty()) {
+                binding.tvTeacherItemSubjects.setText(
+                        String.join("\n", t.getTeachingSubjects()));
+            } else {
+                binding.tvTeacherItemSubjects.setText("Non spécifiés");
+            }
 
+            Log.d("ImageURL", "URL de l'image : " + t.getImage());
+
+
+
+// Afficher l'éducation/formation
+            if (t.getEducation() != null && !t.getEducation().isEmpty()) {
+                binding.tvTeacherItemEducation.setText( t.getEducation());
+            } else {
+                binding.tvTeacherItemEducation.setText("Non spécifiée");
+            }
+
+            /////////////////////
             mainViewModel.getMyFavorites()
                     .observe(getViewLifecycleOwner(), favorites -> {
                         if (favorites == null) {
