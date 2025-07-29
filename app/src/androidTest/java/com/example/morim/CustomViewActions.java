@@ -23,13 +23,7 @@ import java.io.InputStream;
 import static org.hamcrest.Matchers.allOf;
 
 public class CustomViewActions {
-
-    /**
-     * ViewAction לטעינת תמונה מתיקיית assets
-     * @param imageName שם הקובץ בתיקיית assets (לדוגמה: "testImage.jpg")
-     * @return ViewAction שטוען את התמונה ל-ImageView
-     */
-    public static ViewAction setImageFromAssets(String imageName) {
+        public static ViewAction setImageFromAssets(String imageName) {
         return new ViewAction() {
             @Override
             public Matcher<View> getConstraints() {
@@ -45,14 +39,14 @@ public class CustomViewActions {
             public void perform(UiController uiController, View view) {
                 ImageView imageView = (ImageView) view;
                 try {
-// נסה קודם מתיקיית assets של הטסטים
+
                     Context testContext = InstrumentationRegistry.getInstrumentation().getContext();
                     InputStream inputStream = null;
 
                     try {
                         inputStream = testContext.getAssets().open(imageName);
                     } catch (IOException e) {
-// אם לא נמצא, נסה מתיקיית assets של האפליקציה הראשית
+
                         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
                         inputStream = appContext.getAssets().open(imageName);
                     }
@@ -67,10 +61,8 @@ public class CustomViewActions {
         };
     }
 
-    /**
-     * ViewAction לבדיקה שהתמונה נטענה בהצלחה
-     * @return ViewAction שבודק שיש תמונה ב-ImageView
-     */
+
+
     public static ViewAction checkImageLoaded() {
         return new ViewAction() {
             @Override
@@ -93,10 +85,8 @@ public class CustomViewActions {
         };
     }
 
-    /**
-     * ViewAction לכתיבת טקסט בתוך TextView (לצורכי בדיקות בלבד)
-     * @param value הטקסט שרוצים להציג
-     */
+
+
     public static ViewAction setTextInTextView(final String value) {
         return new ViewAction() {
             @Override
