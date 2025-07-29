@@ -133,6 +133,9 @@ public class MainActivity extends BaseActivity {
             Log.d("MainActivity", "onCreateOptionsMenu: " + user);
             menu.findItem(R.id.nav_teacher_update_details)
                     .setVisible(user.isTeacher());
+            menu.findItem(R.id.nav_profile)
+                    .setVisible(user.isTeacher());
+
             mainViewModel.getCurrentUser().removeObservers(this);
         });
         return super.onCreateOptionsMenu(menu);
