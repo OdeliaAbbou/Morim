@@ -41,8 +41,8 @@ import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class ChatActivity extends BaseActivity {
-    private MessageAdapter adapter; // Adaptateur pour les messages
-    private RecyclerView recyclerView; // RecyclerView pour afficher les messages
+    private MessageAdapter adapter;
+    private RecyclerView recyclerView;
     private ChatViewModel chatViewModel;
     private AuthViewModel authViewModel;
     private Chat currentChat;
@@ -55,6 +55,7 @@ public class ChatActivity extends BaseActivity {
         authViewModel = viewModel(AuthViewModel.class);
         String teacherId = getIntent().getStringExtra("TEACHER_ID");
         String studentId = getIntent().getStringExtra("STUDENT_ID");
+
         Log.d("ChatActivity", "onCreate: " + teacherId + ", " + studentId);
         if (teacherId.equals(FirebaseAuth.getInstance().getUid())) {
             chatViewModel.getChat(studentId, FirebaseAuth.getInstance().getUid(), new OnDataCallback<Chat>() {
@@ -104,13 +105,11 @@ public class ChatActivity extends BaseActivity {
             public void onChanged(SingleChatData singleChatData) {
                 Chat currentChat = singleChatData.getMyChat();
 
-                // 🔒 Sécurité : éviter le crash si données incomplètes
                 if (!singleChatData.allResourcesAvailable() || currentChat == null || currentChat.getMessages() == null)
                     return;
 
                 ChatActivity.this.currentChat = currentChat;
 
-                // ✅ Marquer les messages reçus comme lus
                 String currentUserId = FirebaseAuth.getInstance().getUid();
                 boolean updated = false;
 
@@ -125,7 +124,6 @@ public class ChatActivity extends BaseActivity {
                     chatViewModel.updateChat(currentChat);
                 }
 
-                // ✅ Affichage des messages
                 Log.d("ChatActivity", "onChanged: " + currentChat.getMessages().size());
                 System.out.println(currentChat.getStudentId() + ", " + currentChat.getTeacherId() + ", " + currentChat.getMessages().size());
 
@@ -150,13 +148,11 @@ public class ChatActivity extends BaseActivity {
             }
         });
 
-        // Initialiser RecyclerView et l'adaptateur
         recyclerView = findViewById(R.id.rvMessages);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new MessageAdapter(new ArrayList<>());
         recyclerView.setAdapter(adapter);
 
-        // Initialiser les champs pour l'entrée et l'envoi de messages
         EditText messageInput = findViewById(R.id.etMessage);
         ImageButton sendButton = findViewById(R.id.btnSend);
         sendButton.setOnClickListener(v -> {
@@ -169,7 +165,7 @@ public class ChatActivity extends BaseActivity {
 
         ImageButton backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> {
-            finish(); // ferme l'activité et retourne au fragment précédent
+            finish();
         });
 
     }

@@ -190,6 +190,14 @@ public class TeacherAdapter extends RecyclerView.Adapter<TeacherAdapter.TeacherV
             });
 
             binding.btnChat.setOnClickListener(view -> {
+                ///////////
+                String currentUserId = com.google.firebase.auth.FirebaseAuth.getInstance().getUid();
+                if (teacher.getId().equals(currentUserId)) {
+                    Toast.makeText(view.getContext(), "Can't converse with yourself.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                ///////////
                 if (listener instanceof TeacherAdapterListener) {
                     ((TeacherAdapterListener) listener).onSendMessage(teacher);
                 }

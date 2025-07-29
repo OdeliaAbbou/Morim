@@ -109,11 +109,19 @@ public class TeacherFragment extends BaseFragment implements TeacherAdapter.Sche
                 mainViewModel.addFavorite(t.getId());
             });
             binding.btnChat.setOnClickListener(v -> {
-                String teacherId = t.getId(); // Obtenir l'ID de l'enseignant depuis l'objet Teacher
+                String currentUserId = FirebaseAuth.getInstance().getUid();
+                String teacherId = t.getId();
                 if (teacherId == null || teacherId.isEmpty()) {
                     Toast.makeText(requireContext(), "Erreur : L'ID de l'enseignant est introuvable", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if (teacherId.equals(currentUserId)) {
+                    Toast.makeText(requireContext(), "Can't converse with yourself.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
+
                 Log.d("onSendMessage", t.toString());
                 // Lancer ChatActivity avec les informations nécessaires
                 Intent intent = new Intent(requireContext(), ChatActivity.class);
