@@ -2,6 +2,9 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="AuthActivityUIIntegrationTest">
+        <State />
+      </entry>
       <entry key="RegisterTest">
         <State />
       </entry>
@@ -21,16 +24,13 @@
           <timeTargetWasSelectedWithDropDown value="2025-05-25T19:52:15.731896300Z" />
         </State>
       </entry>
-      <entry key="hasTextInputLayoutErrorText()">
+      <entry key="testInvalidLogin_showsErrorMessage()">
         <State />
       </entry>
-      <entry key="testNavigationBackToSignIn()">
+      <entry key="testInvalidLogin_userRemainsOnAuthActivity()">
         <State />
       </entry>
-      <entry key="testRegisterValidationErrors()">
-        <State />
-      </entry>
-      <entry key="testTeacherRegistrationDialogCancellation()">
+      <entry key="testNavigateToRegister_clickWorks()">
         <State />
       </entry>
     </value>

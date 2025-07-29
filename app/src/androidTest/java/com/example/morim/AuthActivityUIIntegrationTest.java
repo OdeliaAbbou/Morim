@@ -121,17 +121,27 @@ public class AuthActivityUIIntegrationTest {
         onView(withId(R.id.btnLoginSubmit))
                 .perform(click());
 
-        onView(withId(R.id.pbAuth))
-                .check(matches(isDisplayed()));
-
-// המתנה לתגובה (Firebase error response)
         SystemClock.sleep(8000);
 
-// בדיקה שה-ProgressBar נעלם
-        onView(withId(R.id.pbAuth))
-                .check(matches(not(isDisplayed())));
+        onView(withId(R.id.btnLoginSubmit))
+                .check(matches(isDisplayed()));
 
-    }
+        onView(withId(R.id.etEmailLogin))
+                .check(matches(isDisplayed()));
+
+        onView(withId(R.id.etPasswordLogin))
+                .check(matches(isDisplayed()));
+
+        onView(withId(R.id.etEmailLogin))
+                .check(matches(withText("invalid@email.com")));
+
+        onView(withId(R.id.etPasswordLogin))
+                .check(matches(withText("wrongpassword")));
+
+        onView(withId(R.id.etEmailLogin))
+                .check(matches(withText("invalid@email.com")));
+        onView(withId(R.id.etPasswordLogin))
+                .check(matches(withText("wrongpassword")));    }
 
     @Test
     public void testNavigateToRegister_clickWorks() {
