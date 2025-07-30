@@ -84,26 +84,48 @@ public class HourDialog extends DialogFragment {
         }
         LocalDate now = LocalDate.now();
         boolean insertedAtLeast1 = false;
-        for (int i = 0; i <= 8; i++) {
+        for (int i = 0; i <= 15; i++) {
             // check if the hour is in the past and the date is today
             if ((now.getDayOfMonth()
                     == date.getDayOfMonth()
                     && now.getMonth() == date.getMonth()
                     && now.getYear() == date.getYear())
-                    && i + 8 < c.get(Calendar.HOUR_OF_DAY))
+//                    && i + 8 < c.get(Calendar.HOUR_OF_DAY))
+                    && (i + 8) < Calendar.getInstance().get(Calendar.HOUR_OF_DAY))
+
                 continue;
             insertedAtLeast1 = true;
 
             TextView hourTv = new TextView(getContext());
             hourTv.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
             hourTv.setPadding(16, 16, 16, 16);
-            if ((i + 8) <= 12) {
-                hourTv.setText(Math.abs(i + 8) + ":00 AM");
-                layoutAm.addView(hourTv);
+
+//            if ((i + 8) <= 12) {
+//                hourTv.setText(Math.abs(i + 8) + ":00 AM");
+//                layoutAm.addView(hourTv);
+//            } else {
+//                hourTv.setText((i + 8) + ":00 PM");
+//                layoutPm.addView(hourTv);
+//            }
+            ////////////////
+            int hour = i + 8;
+
+// Texte de l’heure
+            if (hour <=12) {
+                hourTv.setText(hour + ":00 AM");
+
             } else {
-                hourTv.setText((i + 8) + ":00 PM");
-                layoutPm.addView(hourTv);
+                hourTv.setText((hour) + ":00 PM");
             }
+
+// Placement gauche/droite selon la plage
+            if (hour >= 8 && hour <= 15) {
+                layoutAm.addView(hourTv); // 8 à 15 à gauche
+            } else {
+                layoutPm.addView(hourTv); // 16 à 23 à droite
+            }
+
+            //////////////////
             allHoursTvs.add(hourTv);
             final int cI = i;
             if (meetingsByHour.containsKey(i + 8)) {

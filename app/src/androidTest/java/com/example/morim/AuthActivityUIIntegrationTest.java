@@ -97,7 +97,6 @@ public class AuthActivityUIIntegrationTest {
                 .perform(click());
         SystemClock.sleep(3000);
 
-        // 🔍 Vérifie que le nom de l'utilisateur s'affiche après la connexion
         onView(withId(R.id.titleMorim))
                 .check(matches(isDisplayed()))
                 .check(matches(withText("Hi odelia")));

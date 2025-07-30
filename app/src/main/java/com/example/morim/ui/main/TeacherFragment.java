@@ -61,7 +61,7 @@ public class TeacherFragment extends BaseFragment implements TeacherAdapter.Sche
             binding.tvPrice.setText(String.format("%.1f$ /hour", t.getPrice()));
             binding.titleTeacher.setText(String.format("%s's Profile", t.getFullName()));
             binding.tvTeacherItemName.setText(t.getFullName());
-            binding.btnSchedule.setText(String.format("Schedule with %s", t.getFullName()));
+//            binding.btnSchedule.setText(String.format("Schedule with %s", t.getFullName()));
             binding.rbTeacherItem.setRating((float) t.getAverageRating());
 ////////////////////////////
             if (t.getTeachingSubjects() != null && !t.getTeachingSubjects().isEmpty()) {

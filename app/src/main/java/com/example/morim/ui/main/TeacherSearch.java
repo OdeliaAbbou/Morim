@@ -49,6 +49,10 @@ public class TeacherSearch extends BaseFragment {
         binding = FragmentTeacherSearchBinding.inflate(inflater, container, false);
         mainViewModel = activityScopedViewModel(MainViewModel.class);
         return binding.getRoot();
+
+
+
+
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -63,8 +67,18 @@ public class TeacherSearch extends BaseFragment {
         Spinner spinner = new SubjectSpinner(getContext(), new SubjectSpinner.OnItemSelected() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (i == 0) return; // Ignorer la sélection par défaut
-                selectedCategory[0] = MorimApp.ALL_SUBJECTS.get(i); // Enregistrer la catégorie sélectionnée
+                if (i == 0){
+                    //////////
+                    selectedCategory[0] = null;
+                    // 👉 Remettre la liste complète
+                    mainViewModel.getTeachers().observe(getViewLifecycleOwner(), teachers -> {
+                        adapter.setTeacherData(teachers);
+                    });
+
+                    ////////////
+                    return;
+                }
+                selectedCategory[0] = MorimApp.ALL_SUBJECTS.get(i);
             }
         });
         spinner.setOnTouchListener((v, motionEvent) -> {
@@ -101,7 +115,7 @@ public class TeacherSearch extends BaseFragment {
 
             @Override
             public void onSendMessage(Teacher teacher) {
-                String teacherId = teacher.getId(); // Obtenir l'ID de l'enseignant depuis l'objet Teacher
+                String teacherId = teacher.getId();
                 if (teacherId == null || teacherId.isEmpty()) {
                     Toast.makeText(requireContext(), "Erreur : L'ID de l'enseignant est introuvable", Toast.LENGTH_SHORT).show();
                     return;
@@ -167,6 +181,17 @@ public class TeacherSearch extends BaseFragment {
                         });
             }
         });
+
+        ////////////////////////////////////////
+        // 🔹 Ici on met l’observer pour afficher tous les enseignants au chargement
+        mainViewModel.getTeachers().observe(getViewLifecycleOwner(), teachers -> {
+            // Affiche tous les enseignants si aucun filtre n’est sélectionné
+            if (selectedCategory[0] == null || selectedCategory[0].isEmpty()) {
+                adapter.setTeacherData(teachers);
+            }
+        });
+
+        /////////////////////////////////////////
 
         mainViewModel.getMyFavorites()
                 .observe(getViewLifecycleOwner(), teachers -> adapter.setFavorites(new HashSet<>(teachers)));

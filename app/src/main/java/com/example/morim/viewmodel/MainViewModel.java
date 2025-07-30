@@ -114,9 +114,20 @@ public class MainViewModel extends ViewModel {
         return myMeetingsDataMediatorLiveData;
     }
 
-    public LiveData<List<Teacher>> getTeachers() {
-        return teachers.get();
-    }
+//    public LiveData<List<Teacher>> getTeachers() {
+//        return teachers.get();
+//    }
+public LiveData<List<Teacher>> getTeachers() {
+    MutableLiveData<List<Teacher>> sortedTeachers = new MutableLiveData<>();
+    teachers.get().observeForever(list -> {
+        if (list != null) {
+            // 🔹 TRI ICI
+            list.sort((t1, t2) -> Double.compare(t2.getAverageRating(), t1.getAverageRating()));
+            sortedTeachers.setValue(list);
+        }
+    });
+    return sortedTeachers;
+}
 
 
     public LiveData<List<Teacher>> getTeacherSearchResults() {
@@ -170,6 +181,10 @@ public class MainViewModel extends ViewModel {
                 .filter(teacher -> teacher.getTeachingSubjects()
                         .contains(subject))
                 .collect(Collectors.toList());
+        ////////////
+        results.sort((t1, t2) -> Double.compare(t2.getAverageRating(), t1.getAverageRating()));
+
+        /////////////
         teachersSearchResults.postValue(results);
     }
 
@@ -180,6 +195,10 @@ public class MainViewModel extends ViewModel {
                 .filter(teacher -> teacher.getTeachingSubjects().contains(subject))
                 .filter(teacher -> teacher.getPrice() >= minPrice && teacher.getPrice() <= maxPrice)
                 .collect(Collectors.toList());
+        //////
+        results.sort((t1, t2) -> Double.compare(t2.getAverageRating(), t1.getAverageRating()));
+
+        //////
         teachersSearchResults.postValue(results);
     }
 

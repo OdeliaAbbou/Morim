@@ -2,6 +2,9 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="ScheduleMeetingTest">
+        <State />
+      </entry>
       <entry key="app">
         <State>
           <targetSelectedWithDropDown>
@@ -19,9 +22,6 @@
         </State>
       </entry>
       <entry key="testInvalidLogin_showsErrorMessage()">
-        <State />
-      </entry>
-      <entry key="testInvalidLogin_userRemainsOnAuthActivity()">
         <State />
       </entry>
       <entry key="testRegisterAsStudent_withTestImage()">

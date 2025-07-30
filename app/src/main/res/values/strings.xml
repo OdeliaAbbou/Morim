@@ -35,10 +35,10 @@
     <string name="max_price">Max Price</string>
     <string name="apply_filter">Apply Filter</string>
     <color name="purple_500">#9C27B0</color> <!-- Couleur violette -->
-    <string name="teacher_name">Roni Peretz</string>
+    <string name="teacher_name">Name name</string>
     <string name="teaching_subjects">Teaching Subjects</string>
     <string name="education_label">Education</string>
-    <string name="schedule_with_teacher">Schedule with Roni Peretz</string>
+    <string name="schedule_with_teacher">Schedule</string>
     <string name="view_profile">View Profile</string>
     <string name="chat_button_description">Chat with teacher</string>
     <string name="hourly_fee">150$ /hour</string>

@@ -168,7 +168,8 @@ public class TeacherAdapter extends RecyclerView.Adapter<TeacherAdapter.TeacherV
                         .load(User.DEFAULT_IMAGE)
                         .into(binding.ivTeacherItem);
 
-            binding.btnSchedule.setText(String.format("Schedule with %s", teacher.getFullName()));
+//            binding.btnSchedule.setText(String.format("Schedule with %s", teacher.getFullName()));
+
             binding.tvPrice.setText(String.format("%.1f$ /hour", teacher.getPrice()));
             binding.rbTeacherItem.setRating((float) teacher.getAverageRating());
 
