@@ -57,13 +57,16 @@ public class TeacherFragment extends BaseFragment implements TeacherAdapter.Sche
             String teacherStr = TeacherFragmentArgs.fromBundle(getArguments()).getTeacher();
             Gson g = new Gson();
             binding.backBtn.setOnClickListener(v -> findNavController().popBackStack());
+
             Teacher t = g.fromJson(teacherStr, Teacher.class);
+
+            String currentUserId = FirebaseAuth.getInstance().getUid();
+            hideButtonsIfOwnProfile(t);
+
             binding.tvPrice.setText(String.format("%.1f$ /hour", t.getPrice()));
             binding.titleTeacher.setText(String.format("%s's Profile", t.getFullName()));
             binding.tvTeacherItemName.setText(t.getFullName());
-//            binding.btnSchedule.setText(String.format("Schedule with %s", t.getFullName()));
             binding.rbTeacherItem.setRating((float) t.getAverageRating());
-////////////////////////////
             if (t.getTeachingSubjects() != null && !t.getTeachingSubjects().isEmpty()) {
                 binding.tvTeacherItemSubjects.setText(
                         String.join("\n", t.getTeachingSubjects()));
@@ -73,16 +76,12 @@ public class TeacherFragment extends BaseFragment implements TeacherAdapter.Sche
 
             Log.d("ImageURL", "URL de l'image : " + t.getImage());
 
-
-
-// Afficher l'éducation/formation
             if (t.getEducation() != null && !t.getEducation().isEmpty()) {
                 binding.tvTeacherItemEducation.setText( t.getEducation());
             } else {
                 binding.tvTeacherItemEducation.setText("Non spécifiée");
             }
 
-            /////////////////////
             mainViewModel.getMyFavorites()
                     .observe(getViewLifecycleOwner(), favorites -> {
                         if (favorites == null) {
@@ -109,7 +108,6 @@ public class TeacherFragment extends BaseFragment implements TeacherAdapter.Sche
                 mainViewModel.addFavorite(t.getId());
             });
             binding.btnChat.setOnClickListener(v -> {
-                String currentUserId = FirebaseAuth.getInstance().getUid();
                 String teacherId = t.getId();
                 if (teacherId == null || teacherId.isEmpty()) {
                     Toast.makeText(requireContext(), "Erreur : L'ID de l'enseignant est introuvable", Toast.LENGTH_SHORT).show();
@@ -123,10 +121,9 @@ public class TeacherFragment extends BaseFragment implements TeacherAdapter.Sche
 
 
                 Log.d("onSendMessage", t.toString());
-                // Lancer ChatActivity avec les informations nécessaires
                 Intent intent = new Intent(requireContext(), ChatActivity.class);
-                intent.putExtra("TEACHER_ID", teacherId); // Transmettre l'ID du professeur
-                intent.putExtra("TEACHER_NAME", t.getFullName()); // Optionnel : Nom du professeur
+                intent.putExtra("TEACHER_ID", teacherId);
+                intent.putExtra("TEACHER_NAME", t.getFullName());
                 requireContext().startActivity(intent);
             });
             if (!t.getImage().isEmpty()) {
@@ -150,10 +147,8 @@ public class TeacherFragment extends BaseFragment implements TeacherAdapter.Sche
                     onRequestScheduleWithTeacher(t));
             if (t.getId().equals(FirebaseAuth.getInstance().getUid())) {
                 binding.rbTeacherItem.setEnabled(false);
-                //binding.rateThis.setText(String.format("%s", "This is your rating (:"));
             } else if (t.getRatingStudents().contains(FirebaseAuth.getInstance().getUid())) {
                 binding.rbTeacherItem.setEnabled(false);
-               // binding.rateThis.setText(String.format("%s", "You have rated this teacher"));
             } else {
                 binding.rbTeacherItem.setOnRatingBarChangeListener((ratingBar, rating, b) -> {
                     mainViewModel.rateTeacher(t, rating);
@@ -183,6 +178,15 @@ public class TeacherFragment extends BaseFragment implements TeacherAdapter.Sche
         );
 
     }
+    private void hideButtonsIfOwnProfile(Teacher teacher) {
+        String currentUserId = FirebaseAuth.getInstance().getUid();
+        if (teacher.getId().equals(currentUserId)) {
+            binding.btnSchedule.setVisibility(View.GONE);
+            binding.btnChat.setVisibility(View.GONE);
+            binding.btnFavorite.setVisibility(View.GONE);
+        }
+    }
+
 
 
     @Override

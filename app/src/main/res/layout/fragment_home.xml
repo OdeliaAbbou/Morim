@@ -5,6 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/imgProfile"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="12dp"
+        android:src="@drawable/profile_ic"
+        android:scaleType="centerCrop"
+        app:shapeAppearance="@style/ShapeAppearance.Material3.Corner.Full"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/titleMorim"
+        app:layout_constraintBottom_toBottomOf="@id/titleMorim"
+         />
+    />
+
     <TextView
         android:id="@+id/titleMorim"
         android:layout_width="wrap_content"
@@ -13,10 +27,10 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="#000000"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/imgProfile"
         app:layout_constraintBottom_toBottomOf="@id/btnLogout" />
 
     <com.google.android.material.button.MaterialButton

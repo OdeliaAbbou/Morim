@@ -124,6 +124,12 @@ public class MainActivity extends BaseActivity {
 
 
     }
+    //////////
+    private boolean hasLocationPermissions() {
+        return checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+    }
+    ///////////
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -160,10 +166,23 @@ public class MainActivity extends BaseActivity {
         } else if (item.getItemId() == R.id.nav_teacher_update_details) {
             User user = mainViewModel.getCurrentUser().getValue();
             if (user == null || !user.isTeacher()) return true;
+//            userManager.getTeacher(user.getId(), new OnDataCallback<Teacher>() {
+//                @Override
+//                public void onData(Teacher teacher) {
+//                    TeacherDetailsDialog c = new TeacherDetailsDialog(teacher, new TeacherDetailsDialog.OnDetailsSelected() {
+            //////////////////
             userManager.getTeacher(user.getId(), new OnDataCallback<Teacher>() {
                 @Override
                 public void onData(Teacher teacher) {
+                    // Check if we have location permissions, if not show a warning but continue
+                    if (!hasLocationPermissions()) {
+                        Toast.makeText(MainActivity.this,
+                                "Location permissions not granted. Location features may be limited.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+
                     TeacherDetailsDialog c = new TeacherDetailsDialog(teacher, new TeacherDetailsDialog.OnDetailsSelected() {
+            /////////////////////
                         @Override
                         public void onDetailsSelected(List<String> teachingSubjects, String teachingArea, Location teachingLocation, String education, double price) {
                             teacher.setTeachingSubjects(teachingSubjects);

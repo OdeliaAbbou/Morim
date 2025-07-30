@@ -44,6 +44,7 @@ public class TeacherAdapter extends RecyclerView.Adapter<TeacherAdapter.TeacherV
         return favorites == null;
     }
 
+
     public interface ScheduleClickListener {
         void onRequestScheduleWithTeacher(Teacher teacher);
 
@@ -99,11 +100,6 @@ public class TeacherAdapter extends RecyclerView.Adapter<TeacherAdapter.TeacherV
         notifyDataSetChanged();
     }
 
-//  @SuppressLint("NotifyDataSetChanged")
-//    public void setTeacherData(List<Teacher> teachers) {
-//        this.teachers = teachers;
-//        notifyDataSetChanged();
-//    }
 
     private boolean isFavoritesAvailable() {
         return favorites != null;
@@ -156,7 +152,7 @@ public class TeacherAdapter extends RecyclerView.Adapter<TeacherAdapter.TeacherV
                 Teacher teacher,
                 Set<Favorite> favorites,
                 ScheduleClickListener listener) {
-
+            toggleButtonsForOwnProfile(teacher);
             boolean isFavorite = favorites != null && favorites.contains(new Favorite(teacher.getId()));
 
             if (!teacher.getImage().isEmpty())
@@ -168,8 +164,6 @@ public class TeacherAdapter extends RecyclerView.Adapter<TeacherAdapter.TeacherV
                         .load(User.DEFAULT_IMAGE)
                         .into(binding.ivTeacherItem);
 
-//            binding.btnSchedule.setText(String.format("Schedule with %s", teacher.getFullName()));
-
             binding.tvPrice.setText(String.format("%.1f$ /hour", teacher.getPrice()));
             binding.rbTeacherItem.setRating((float) teacher.getAverageRating());
 
@@ -177,16 +171,7 @@ public class TeacherAdapter extends RecyclerView.Adapter<TeacherAdapter.TeacherV
             binding.tvTeacherItemSubjects.setText(String.join(",", teacher.getTeachingSubjects()));
             binding.tvTeacherItemEducation.setText(teacher.getEducation());
 
-//            binding.getRoot().setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    binding.getRoot().setOnClickListener(v -> {
-//                        if (listener instanceof TeacherAdapterListener) {
-//                            ((TeacherAdapterListener) listener).onViewTeacher(teacher);
-//                        }
-//                    });
-//                }
-//            });
+
             binding.getRoot().setOnClickListener(v -> {
                 if (listener instanceof TeacherAdapterListener) {
                     ((TeacherAdapterListener) listener).onViewTeacher(teacher);
@@ -194,20 +179,17 @@ public class TeacherAdapter extends RecyclerView.Adapter<TeacherAdapter.TeacherV
             });
 
             binding.btnChat.setOnClickListener(view -> {
-                ///////////
                 String currentUserId = com.google.firebase.auth.FirebaseAuth.getInstance().getUid();
                 if (teacher.getId().equals(currentUserId)) {
                     Toast.makeText(view.getContext(), "Can't converse with yourself.", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
-                ///////////
                 if (listener instanceof TeacherAdapterListener) {
                     ((TeacherAdapterListener) listener).onSendMessage(teacher);
                 }
             });
 
-            binding.btnFavorite.setVisibility(View.VISIBLE);
             binding.btnFavorite.setImageResource(isFavorite ? R.drawable.baseline_favorite_24 : R.drawable.ic_favorite);
             binding.btnFavorite.setOnClickListener(view -> {
                 if (listener instanceof TeacherAdapterListener) {
@@ -263,6 +245,28 @@ public class TeacherAdapter extends RecyclerView.Adapter<TeacherAdapter.TeacherV
                 binding.btnAddReview.setVisibility(View.GONE);
             }
         }
+
+        private void toggleButtonsForOwnProfile(Teacher teacher) {
+            String currentUserId = com.google.firebase.auth.FirebaseAuth.getInstance().getUid();
+
+            if (teacher.getId().equals(currentUserId)) {
+                binding.btnSchedule.setVisibility(View.GONE);
+                binding.btnChat.setVisibility(View.GONE);
+                binding.btnFavorite.setVisibility(View.GONE);
+
+                binding.btnSchedule.setOnClickListener(null);
+                binding.btnChat.setOnClickListener(null);
+                binding.btnFavorite.setOnClickListener(null);
+            } else {
+                binding.btnSchedule.setVisibility(View.VISIBLE);
+                binding.btnChat.setVisibility(View.VISIBLE);
+                binding.btnFavorite.setVisibility(View.VISIBLE);
+
+            }
+        }
+
     }
+
+
 
 }

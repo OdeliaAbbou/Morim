@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.morim.AuthActivity;
 import com.example.morim.ChatActivity;
+import com.example.morim.R;
 import com.example.morim.adapter.TeacherAdapter;
 import com.example.morim.database.OnDataCallback;
 import com.example.morim.databinding.FragmentHomeBinding;
@@ -36,6 +37,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
+import com.squareup.picasso.Picasso;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -119,6 +121,17 @@ public class HomeFragment extends BaseFragment implements TeacherAdapter.Teacher
 
                 if (user != null) {
                     viewBinding.titleMorim.setText("Hi " + user.getFullName());
+                    // Charger l'image du user dans imgProfile
+                    if (user.getImage() != null && !user.getImage().isEmpty()) {
+                        Picasso.get()
+                                .load(user.getImage())
+                                .placeholder(R.drawable.profile_ic) // image par défaut si chargement en cours
+                                .error(R.drawable.profile_ic)       // image par défaut si erreur
+                                .into(viewBinding.imgProfile);
+                    } else {
+                        viewBinding.imgProfile.setImageResource(R.drawable.profile_ic);
+                    }
+
                 }
                 if (adapter != null && user instanceof Student) {
                     adapter.updateCurrentUser((Student) user);
