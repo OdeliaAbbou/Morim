@@ -46,6 +46,8 @@ public class ChatActivity extends BaseActivity {
     private ChatViewModel chatViewModel;
     private AuthViewModel authViewModel;
     private Chat currentChat;
+    private boolean chatExists = false;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,33 +59,72 @@ public class ChatActivity extends BaseActivity {
         String studentId = getIntent().getStringExtra("STUDENT_ID");
 
         Log.d("ChatActivity", "onCreate: " + teacherId + ", " + studentId);
+//        if (teacherId.equals(FirebaseAuth.getInstance().getUid())) {
+//            chatViewModel.getChat(studentId, FirebaseAuth.getInstance().getUid(), new OnDataCallback<Chat>() {
+//                @Override
+//                public void onData(Chat chat) {
+//                    Log.d("ChatActivity", "onData: " + chat.getId() + ", " + chat.getMessages().size());
+//                    chatViewModel.listenChat(chat.getId(), teacherId, authViewModel.getCurrentUser());
+//                }
+//
+//                @Override
+//                public void onException(Exception e) {
+//
+//                }
+//            });
+//        } else {
+//            chatViewModel.createOrGetChat(FirebaseAuth.getInstance().getUid(), teacherId, new OnDataCallback<Chat>() {
+//                @Override
+//                public void onData(Chat chat) {
+//                    chatViewModel.listenChat(chat.getId(), teacherId, authViewModel.getCurrentUser());
+//                }
+//
+//                @Override
+//                public void onException(Exception e) {
+//
+//                }
+//            });
+//        }
+//
+
+        /////////////
+        // Ajouter cette variable en haut de la classe
+
+// Remplacer le code par :
         if (teacherId.equals(FirebaseAuth.getInstance().getUid())) {
             chatViewModel.getChat(studentId, FirebaseAuth.getInstance().getUid(), new OnDataCallback<Chat>() {
                 @Override
                 public void onData(Chat chat) {
-                    Log.d("ChatActivity", "onData: " + chat.getId() + ", " + chat.getMessages().size());
-                    chatViewModel.listenChat(chat.getId(), teacherId, authViewModel.getCurrentUser());
+                    if (chat != null) {
+                        chatExists = true;
+                        chatViewModel.listenChat(chat.getId(), teacherId, authViewModel.getCurrentUser());
+                    } else {
+                        chatExists = false;
+                    }
                 }
-
                 @Override
                 public void onException(Exception e) {
-
+                    chatExists = false;
                 }
             });
         } else {
-            chatViewModel.createOrGetChat(FirebaseAuth.getInstance().getUid(), teacherId, new OnDataCallback<Chat>() {
+            chatViewModel.tryToGetExistingChat(FirebaseAuth.getInstance().getUid(), teacherId, new OnDataCallback<Chat>() {
                 @Override
                 public void onData(Chat chat) {
-                    chatViewModel.listenChat(chat.getId(), teacherId, authViewModel.getCurrentUser());
+                    if (chat != null) {
+                        chatExists = true;
+                        chatViewModel.listenChat(chat.getId(), teacherId, authViewModel.getCurrentUser());
+                    } else {
+                        chatExists = false;
+                    }
                 }
-
                 @Override
                 public void onException(Exception e) {
-
+                    chatExists = false;
                 }
             });
         }
-
+        //////////////
 //        chatViewModel.getActiveChat().observe(this, new Observer<SingleChatData>() {
 //            @Override
 //            public void onChanged(SingleChatData singleChatData) {
@@ -155,13 +196,40 @@ public class ChatActivity extends BaseActivity {
 
         EditText messageInput = findViewById(R.id.etMessage);
         ImageButton sendButton = findViewById(R.id.btnSend);
+//        sendButton.setOnClickListener(v -> {
+//            String content = messageInput.getText().toString();
+//            if (!content.trim().isEmpty() && currentChat != null) {
+//                chatViewModel.sendMessage(currentChat, FirebaseAuth.getInstance().getUid(), content);
+//            }
+//            messageInput.setText("");
+//        });
+        ///////////////
         sendButton.setOnClickListener(v -> {
             String content = messageInput.getText().toString();
-            if (!content.trim().isEmpty() && currentChat != null) {
-                chatViewModel.sendMessage(currentChat, FirebaseAuth.getInstance().getUid(), content);
+            if (!content.trim().isEmpty()) {
+                if (chatExists && currentChat != null) {
+                    // Chat existe, envoyer directement
+                    chatViewModel.sendMessage(currentChat, FirebaseAuth.getInstance().getUid(), content);
+                } else {
+                    // Créer le chat et envoyer le message
+                    chatViewModel.createOrGetChat(FirebaseAuth.getInstance().getUid(), teacherId, new OnDataCallback<Chat>() {
+                        @Override
+                        public void onData(Chat chat) {
+                            currentChat = chat;
+                            chatExists = true;
+                            chatViewModel.listenChat(chat.getId(), teacherId, authViewModel.getCurrentUser());
+                            chatViewModel.sendMessage(chat, FirebaseAuth.getInstance().getUid(), content);
+                        }
+                        @Override
+                        public void onException(Exception e) {
+                            // Gérer l'erreur
+                        }
+                    });
+                }
             }
             messageInput.setText("");
         });
+        /////////////////
 
         ImageButton backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> {

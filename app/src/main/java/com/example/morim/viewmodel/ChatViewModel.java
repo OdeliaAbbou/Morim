@@ -204,25 +204,73 @@ public class ChatViewModel extends ViewModel {
             chatsListener.remove();
     }
 
-    public void getChat(String studentId, String teacherId, OnDataCallback<Chat> onDataCallback) {
+//    public void getChat(String studentId, String teacherId, OnDataCallback<Chat> onDataCallback) {
+//        repository.getMyChats(new OnDataCallback<List<Chat>>() {
+//            @Override
+//            public void onData(List<Chat> value) {
+//                for (Chat c : value) {
+//                    if (c.getStudentId().equals(studentId) && c.getTeacherId().equals(teacherId)) {
+//                        onDataCallback.onData(c);
+//                        return;
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onException(Exception e) {
+//                onDataCallback.onException(e);
+//            }
+//        });
+//    }
+    //////////
+public void getChat(String studentId, String teacherId, OnDataCallback<Chat> onDataCallback) {
+    repository.getMyChats(new OnDataCallback<List<Chat>>() {
+        @Override
+        public void onData(List<Chat> value) {
+            Chat foundChat = null;
+            for (Chat c : value) {
+                if (c.getStudentId().equals(studentId) && c.getTeacherId().equals(teacherId)) {
+                    foundChat = c;
+                    break;
+                }
+            }
+            onDataCallback.onData(foundChat); // Peut être null
+        }
+
+        @Override
+        public void onException(Exception e) {
+            onDataCallback.onException(e);
+        }
+    });
+}
+
+    public void tryToGetExistingChat(String studentId, String teacherId, OnDataCallback<Chat> callback) {
         repository.getMyChats(new OnDataCallback<List<Chat>>() {
             @Override
-            public void onData(List<Chat> value) {
-                for (Chat c : value) {
-                    if (c.getStudentId().equals(studentId) && c.getTeacherId().equals(teacherId)) {
-                        onDataCallback.onData(c);
-                        return;
+            public void onData(List<Chat> allChats) {
+                if (allChats == null || allChats.isEmpty()) {
+                    callback.onData(null);
+                    return;
+                }
+
+                Chat foundChat = null;
+                for (Chat c : allChats) {
+                    if ((c.getStudentId().equals(studentId) && c.getTeacherId().equals(teacherId)) ||
+                            (c.getStudentId().equals(teacherId) && c.getTeacherId().equals(studentId))) {
+                        foundChat = c;
+                        break;
                     }
                 }
+                callback.onData(foundChat);
             }
 
             @Override
             public void onException(Exception e) {
-                onDataCallback.onException(e);
+                callback.onException(e);
             }
         });
     }
-
+    /////////////
 
     public void updateChat(Chat currentChat) {
         repository.updateChat(currentChat);
