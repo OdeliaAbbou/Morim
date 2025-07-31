@@ -21,16 +21,25 @@ import static org.hamcrest.core.StringEndsWith.endsWith;
 import com.example.morim.databinding.FragmentTeacherDetailsBinding;
 import com.example.morim.model.Location;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.net.Uri;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.navigation.fragment.NavHostFragment;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.core.app.ActivityScenario;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
+import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.GrantPermissionRule;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -46,12 +55,21 @@ import org.junit.runner.RunWith;
 import com.example.morim.ui.dialog.TeacherDetailsDialog;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.concurrent.CountDownLatch;
+
+
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
 public class RegisterTest {
+
+    private Uri testImageUri;
+    private Context context;
+
 
     @Rule
     public GrantPermissionRule permissionRule =
@@ -61,6 +79,10 @@ public class RegisterTest {
 
     @Before
     public void setUp() {
+        context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+        createTestImageInternalStorage();
+
+
         FirebaseAuth.getInstance().signOut();
         SystemClock.sleep(1000);
 
@@ -81,6 +103,7 @@ public class RegisterTest {
 
 //        onView(withId(R.id.ivRegisterUserImage))
 //                .perform(setImageFromAssets("testImage.jpg"));
+        setRealImageToFragment();
 
         onView(withId(R.id.etFullNameRegister))
                 .perform(scrollTo(), typeText("TestStudent555555555555"), closeSoftKeyboard());
@@ -101,8 +124,8 @@ public class RegisterTest {
 
         SystemClock.sleep(10000);
 
-        updateUserImageUrlInFirebase("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTM7wiGvv8RAkW5iV0CpLaqOM2pnpCINJa4aQ&s");
-        SystemClock.sleep(2000);
+//        updateUserImageUrlInFirebase("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTM7wiGvv8RAkW5iV0CpLaqOM2pnpCINJa4aQ&s");
+//        SystemClock.sleep(2000);
 
         onView(withId(R.id.titleMorim))
                 .check(matches(isDisplayed()))
@@ -120,16 +143,17 @@ public class RegisterTest {
 
 //        onView(withId(R.id.ivRegisterUserImage))
 //                .perform(setImageFromAssets("testImage.jpg"));
+        setRealImageToFragment();
 
 
         onView(withId(R.id.etFullNameRegister))
-                .perform(scrollTo(), typeText("teacherImg"), closeSoftKeyboard());
+                .perform(scrollTo(), typeText("testImage55"), closeSoftKeyboard());
         onView(withId(R.id.etAddressRegister))
                 .perform(scrollTo(), typeText("123 Rue Exemple"), closeSoftKeyboard());
         onView(withId(R.id.etPhoneRegister))
                 .perform(scrollTo(), typeText("0612345678"), closeSoftKeyboard());
         onView(withId(R.id.etEmailRegister))
-                .perform(scrollTo(), typeText("teacher1@example.com"), closeSoftKeyboard());
+                .perform(scrollTo(), typeText("teacher2@example.com"), closeSoftKeyboard());
         onView(withId(R.id.etPasswordRegister))
                 .perform(scrollTo(), typeText("password123"), closeSoftKeyboard());
 
@@ -195,13 +219,13 @@ public class RegisterTest {
 
         SystemClock.sleep(10000);
 
-        updateUserImageUrlInFirebase("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTM7wiGvv8RAkW5iV0CpLaqOM2pnpCINJa4aQ&s");
-        SystemClock.sleep(2000);
+//        updateUserImageUrlInFirebase("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTM7wiGvv8RAkW5iV0CpLaqOM2pnpCINJa4aQ&s");
+//        SystemClock.sleep(2000);
 
 
         onView(withId(R.id.titleMorim))
                 .check(matches(isDisplayed()))
-                .check(matches(withText("Hi teacherImg")));
+                .check(matches(withText("Hi testImage55")));
 
         performLogout();
     }
@@ -294,8 +318,11 @@ public class RegisterTest {
         onView(withId(R.id.btnToRegister))
                 .perform(click());
 
-        onView(withId(R.id.ivRegisterUserImage))
-                .perform(setImageFromAssets("testImage.jpg"));
+//        onView(withId(R.id.ivRegisterUserImage))
+//                .perform(setImageFromAssets("testImage.jpg"));
+        setRealImageToFragment();
+
+        SystemClock.sleep(2000);
 
         // verif img not pas null
         onView(withId(R.id.ivRegisterUserImage))
@@ -509,8 +536,8 @@ public class RegisterTest {
         onView(withId(R.id.btnToRegister))
                 .perform(click());
 
-        onView(withId(R.id.ivRegisterUserImage))
-                .perform(setImageFromAssets("testImage.jpg"));
+//        onView(withId(R.id.ivRegisterUserImage))
+//                .perform(setImageFromAssets("testImage.jpg"));
 
         onView(withId(R.id.etFullNameRegister))
                 .perform(scrollTo(), typeText("TestTeacherCancel"), closeSoftKeyboard());
@@ -594,6 +621,80 @@ public class RegisterTest {
                     Log.e("TEST_IMAGE_UPDATE", "Failed to update image URL", e);
                     throw new RuntimeException("Failed to update image URL in Firebase", e);
                 });
+    }
+
+
+    private void createTestImageInternalStorage() {
+        try {
+            // Créer un Bitmap 400x400
+            Bitmap testBitmap = Bitmap.createBitmap(400, 400, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(testBitmap);
+
+            // Fond bleu
+            Paint backgroundPaint = new Paint();
+            backgroundPaint.setColor(Color.BLUE);
+            canvas.drawRect(0, 0, 400, 400, backgroundPaint);
+
+            // Cercle blanc au centre
+            Paint circlePaint = new Paint();
+            circlePaint.setColor(Color.WHITE);
+            canvas.drawCircle(200, 200, 150, circlePaint);
+
+            // Texte noir "TEST USER"
+            Paint textPaint = new Paint();
+            textPaint.setColor(Color.BLACK);
+            textPaint.setTextSize(40);
+            textPaint.setTextAlign(Paint.Align.CENTER);
+            canvas.drawText("TEST", 200, 190, textPaint);
+            canvas.drawText("USER", 200, 230, textPaint);
+
+            // Sauvegarde dans le cache interne (aucune permission requise)
+            File cacheDir = context.getCacheDir();
+            File imageFile = new File(cacheDir, "test_user_" + System.currentTimeMillis() + ".jpg");
+
+            FileOutputStream outputStream = new FileOutputStream(imageFile);
+            testBitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream);
+            outputStream.close();
+
+            // Stocker l'URI pour la réutiliser
+            testImageUri = Uri.fromFile(imageFile);
+
+            System.out.println("Test image created successfully: " + testImageUri);
+
+        } catch (IOException e) {
+            System.out.println("Failed to create test image: " + e.getMessage());
+        }
+    }
+
+    private void setRealImageToFragment() {
+        if (testImageUri != null) {
+            scenario.onActivity(activity -> {
+                try {
+                    Fragment currentFragment = activity.getSupportFragmentManager().getPrimaryNavigationFragment();
+
+                    if (currentFragment instanceof NavHostFragment) {
+                        NavHostFragment navHost = (NavHostFragment) currentFragment;
+                        Fragment activeFragment = navHost.getChildFragmentManager().getFragments().get(0);
+
+                        if (activeFragment.getClass().getSimpleName().contains("Register")) {
+                            try {
+                                java.lang.reflect.Method setImageMethod =
+                                        activeFragment.getClass().getMethod("setTestImageUri", Uri.class);
+                                setImageMethod.invoke(activeFragment, testImageUri);
+                                System.out.println("Test image set successfully!");
+                            } catch (Exception e) {
+                                System.out.println("Failed to set test image: " + e.getMessage());
+                                System.out.println("Make sure you added setTestImageUri method to RegisterFragment");
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    System.out.println("Could not access fragment: " + e.getMessage());
+                }
+            });
+
+            SystemClock.sleep(1000);
+        }
     }
 
 

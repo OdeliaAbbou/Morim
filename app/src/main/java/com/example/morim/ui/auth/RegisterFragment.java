@@ -410,4 +410,15 @@ public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceStat
         super.onDestroy();
         viewBinding = null;
     }
+
+
+    //for test
+    public void setTestImageUri(Uri imageUri) {
+        this.selectedImage = imageUri;
+        if (viewBinding != null && viewBinding.ivRegisterUserImage != null) {
+            viewBinding.ivRegisterUserImage.setImageURI(imageUri);
+        }
+        System.out.println("Test image URI set: " + imageUri.toString());
+    }
+
 }
