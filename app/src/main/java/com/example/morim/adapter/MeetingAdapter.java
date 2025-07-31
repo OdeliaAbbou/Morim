@@ -181,8 +181,26 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.Meetings
             binding.tvMeetingSubject.setText(meeting.getMeetingSubject());
             binding.tvMeetingEmail.setText(other.getEmail());
             binding.tvMeetingPhone.setText(other.getPhone());
-            binding.tvMeetingParticipant.setText(other.getFullName());
+//            binding.tvMeetingParticipant.setText(other.getFullName()); //
+//////////////////
 
+            String myUid = FirebaseAuth.getInstance().getUid();
+            User me = users.get(myUid);
+            if (other == null || me == null) return;
+            final User finalOther = other; // ✅ AJOUT
+
+            if (me.isTeacher()) {
+                if (meeting.getTeacherId().equals(myUid)) {
+                    binding.tvMeetingParticipant.setText(finalOther.getFullName() + " (You teaching)");
+                } else if (meeting.getStudentId().equals(myUid)) {
+                    binding.tvMeetingParticipant.setText(finalOther.getFullName() + " (You learning)");
+                }
+            } else {
+                binding.tvMeetingParticipant.setText(finalOther.getFullName());
+            }
+
+
+            /////////////////
             binding.btnCancelMeeting.setOnClickListener(view ->
                     actions.cancel(meeting, other)
             );
